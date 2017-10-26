@@ -1,0 +1,29 @@
+{
+    "name": "grifart/enum",
+    "description": "Provides bullet proof enums with behaviours.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jan Kuchař",
+            "email": "honza.kuchar@grifart.cz"
+        }
+    ],
+
+    "require": {
+
+    },
+    "autoload": {
+        "psr-4": {
+            "Grifart\\Enum\\": "src"
+        }
+    },
+
+    "require-dev": {
+        "nette/tester": "^1.7.0"
+    },
+    "autoload-dev": {
+        
+    }
+    
+}
