@@ -7,12 +7,12 @@ require __DIR__ . '/bootstrap.php';
  */
 abstract class StateMachine extends \Grifart\Enum\Enum {
 
-	public const STATE_A = 'a';
-	public const STATE_B = 'b';
+	protected const STATE_A = 'a';
+	protected const STATE_B = 'b';
 
 	abstract public function canDoTransitionTo(StateMachine $targetState): bool;
 
-	public static function provideInstances(): array
+	protected static function provideInstances(): array
 	{
 		return [
 			self::STATE_A => new class extends StateMachine {

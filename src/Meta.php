@@ -67,4 +67,19 @@ final class Meta
 		}
 		return $result;
 	}
+
+	public function getScalarForValue(Enum $enum)
+	{
+		$result = \array_search($enum, $this->scalarToValue, TRUE);
+		if ($result === false) {
+			throw new \RuntimeException("Could not find scalar value given value.");
+		}
+		return $result;
+	}
+
+
+	public function getValueForScalar($scalar): Enum
+	{
+		return $this->scalarToValue[$scalar];
+	}
 }

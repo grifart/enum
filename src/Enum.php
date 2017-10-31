@@ -15,31 +15,47 @@ abstract class Enum
 
 	protected function __construct() {}
 
-	abstract public static function provideInstances(): array;
+	abstract protected static function provideInstances(): array;
 
 	/**
 	 * @return string[]|int[]
 	 */
-	private static function getPrimitiveValues(): array
-	{
+	protected static function getPrimitiveValues(): array
+	{ // todo: move this to Meta?
 		return (new \ReflectionClass(static::class))->getConstants();
+	}
+
+	/** @return static */
+	public function fromScalar($scalar): Enum
+	{
+		return self::getMeta()->getValueForScalar($scalar);
+	}
+
+	private static function getMeta(): Meta
+	{
+		return InstanceRegister::get(
+			static::class,
+			function(): Meta {
+				return Meta::from(
+					static::class,
+					static::getPrimitiveValues(),
+					static::provideInstances()
+				);
+			}
+		);
 	}
 
 	public static function __callStatic(string $constantName, array $arguments)
 	{
 		\assert(empty($arguments));
 
-		return InstanceRegister::get(
-				static::class,
-				function(): Meta {
-					return Meta::from(
-						static::class,
-						static::getPrimitiveValues(),
-						static::provideInstances()
-					);
-				}
-			)->getValueForConstantName($constantName);
+		return self::getMeta()->getValueForConstantName($constantName);
 
+	}
+
+	public function getScalarValue()
+	{
+		return self::getMeta()->getScalarForValue($this);
 	}
 
 }
