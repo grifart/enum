@@ -5,7 +5,7 @@ namespace Grifart\Enum;
 final class InstanceRegister
 {
 
-	/** @var \Grifart\Enum\Meta */
+	/** @var \Grifart\Enum\Meta[] */
 	private static $instances = [];
 
 	public static function get(string $enumClass, callable $registrator = null): Meta
