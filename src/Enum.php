@@ -26,7 +26,7 @@ abstract class Enum
 	}
 
 	/** @return static */
-	public function fromScalar($scalar): Enum
+	public static function fromScalar($scalar): Enum
 	{
 		return self::getMeta()->getValueForScalar($scalar);
 	}

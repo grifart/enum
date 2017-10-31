@@ -31,7 +31,7 @@ final class ConsistencyChecker
 
 		if(!empty($missingAnnotations)) {
 			$properDoc = "/**\n * " . implode("\n * ", $missingAnnotations) . "\n */\n";
-			throw new \LogicException("You forgotten to add @method annotations for enum {$enumReflection->getName()}. Missing ones are: \n$properDoc");
+			throw new \LogicException("You have forgotten to add @method annotations for enum '{$enumReflection->getName()}'. Documentation block should contain: \n$properDoc");
 		}
 
 		// todo: @method annotations without constants
