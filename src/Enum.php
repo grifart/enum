@@ -15,20 +15,38 @@ abstract class Enum
 
 	protected function __construct() {}
 
+	/**
+	 * Provide values for given enum.
+	 * @return array
+	 */
 	abstract protected static function provideInstances(): array;
 
 	/**
 	 * @return string[]|int[]
 	 */
-	protected static function getPrimitiveValues(): array
+	protected static function getConstantToScalar(): array
 	{ // todo: move this to Meta?
 		return (new \ReflectionClass(static::class))->getConstants();
 	}
 
-	/** @return static */
+	/**
+	 * Builds enumeration from its scalar value.
+	 * @return static
+	 */
 	public static function fromScalar($scalar): Enum
 	{
 		return self::getMeta()->getValueForScalar($scalar);
+	}
+
+	/**
+	 * Provides access to values using ::CONSTANT_NAME() interface.
+	 * @return static
+	 */
+	public static function __callStatic(string $constantName, array $arguments): Enum
+	{
+		\assert(empty($arguments));
+
+		return self::getMeta()->getValueForConstantName($constantName);
 	}
 
 	private static function getMeta(): Meta
@@ -38,26 +56,28 @@ abstract class Enum
 			function(): Meta {
 				return Meta::from(
 					static::class,
-					static::getPrimitiveValues(),
+					static::getConstantToScalar(),
 					static::provideInstances()
 				);
 			}
 		);
 	}
 
-	public static function __callStatic(string $constantName, array $arguments)
-	{
-		\assert(empty($arguments));
-
-		return self::getMeta()->getValueForConstantName($constantName);
-
-	}
-
+	/**
+	 * Provides scalar representation of enum value.
+	 * @return int|string
+	 */
 	public function getScalarValue()
 	{
 		return self::getMeta()->getScalarForValue($this);
 	}
 
+	/**
+	 * Retrieves constant name that is used to access enum value.
+	 *
+	 * Note: do not depend on this values, as it can change anytime. This value can be
+	 * subject of refactorings of user-defined enums.
+	 */
 	public function getConstantName(): string
 	{
 		return self::getMeta()->getConstantNameForScalar(
@@ -65,14 +85,23 @@ abstract class Enum
 		);
 	}
 
+	/**
+	 * @param mixed $that the other object we are comparing to
+	 * @return bool if current value equals to the other value
+	 * If value is non-enum value, returns false (as they are also not equal).
+	 */
 	public function equals($that): bool
 	{
 		return $this === $that;
 	}
 
-	public function equalsScalarValue($otherScalarValue): bool
+	/**
+	 * @param int|string $theOtherScalarValue
+	 * @return bool true if current scalar representation of value equals to given scalar value
+	 */
+	public function equalsScalarValue($theOtherScalarValue): bool
 	{
-		return self::getMeta()->getScalarForValue($this) === $otherScalarValue;
+		return self::getMeta()->getScalarForValue($this) === $theOtherScalarValue;
 	}
 
 }
