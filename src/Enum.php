@@ -58,4 +58,14 @@ abstract class Enum
 		return self::getMeta()->getScalarForValue($this);
 	}
 
+	public function equals($that): bool
+	{
+		return $this === $that;
+	}
+
+	public function equalsScalarValue($otherScalarValue): bool
+	{
+		return self::getMeta()->getScalarForValue($this) === $otherScalarValue;
+	}
+
 }
