@@ -58,6 +58,13 @@ abstract class Enum
 		return self::getMeta()->getScalarForValue($this);
 	}
 
+	public function getConstantName(): string
+	{
+		return self::getMeta()->getConstantNameForScalar(
+			self::getMeta()->getScalarForValue($this)
+		);
+	}
+
 	public function equals($that): bool
 	{
 		return $this === $that;
