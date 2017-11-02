@@ -40,7 +40,7 @@ final class Meta
 
 	public function getScalarValues(): array
 	{
-		return \array_keys($this->scalarToValue);
+		return \array_values($this->constantToScalar);
 	}
 
 	/** @return \Grifart\Enum\Enum[] */

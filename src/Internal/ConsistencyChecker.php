@@ -43,7 +43,6 @@ final class ConsistencyChecker
 	{
 		// todo: instances without constants
 
-		$instances = $enumMeta->getValues();
 		foreach($enumMeta->getScalarValues() as $scalarValue) {
 			if (!$enumMeta->hasValueForScalar($scalarValue)) {
 				$constantName = $enumMeta->getConstantNameForScalar($scalarValue);
