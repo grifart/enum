@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Grifart\Enum;
+namespace Grifart\Enum\Internal;
+
+use Grifart\Enum\Enum;
 
 final class Meta
 {

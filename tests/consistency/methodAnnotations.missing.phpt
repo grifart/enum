@@ -4,7 +4,7 @@ require __DIR__ . '/../bootstrap.php';
 
 class MethodAnnotationsMissing extends \Grifart\Enum\Enum {
 
-	use \Grifart\Enum\AutoInstances;
+	use Grifart\Enum\AutoInstances;
 	protected const STATE_A = 'a';
 	protected const STATE_B = 'b';
 

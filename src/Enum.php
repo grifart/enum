@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 
 namespace Grifart\Enum;
+use Grifart\Enum\Internal\InstanceRegister;
+use Grifart\Enum\Internal\Meta;
 
 /**
  * Enum

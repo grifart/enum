@@ -8,7 +8,7 @@ require __DIR__ . '/../bootstrap.php';
  */
 class OrderState extends \Grifart\Enum\Enum {
 
-	use \Grifart\Enum\AutoInstances;
+	use Grifart\Enum\AutoInstances;
 
 	protected const NEW = 'new';
 	protected const ACTIVE = 'active';
