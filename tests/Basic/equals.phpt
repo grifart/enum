@@ -5,13 +5,13 @@ require __DIR__ . '/../bootstrap.php';
  * @method static EqualsState NEW()
  * @method static EqualsState ACTIVE()
  */
-class EqualsState extends \Grifart\Enum\Enum {
-
+class EqualsState extends \Grifart\Enum\Enum
+{
 	use Grifart\Enum\AutoInstances;
 
 	protected const NEW = 'new';
-	protected const ACTIVE = 'active';
 
+	protected const ACTIVE = 'active';
 }
 
 \Tester\Assert::true(EqualsState::NEW()->equals(EqualsState::NEW()));

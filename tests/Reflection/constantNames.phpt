@@ -5,13 +5,13 @@ require __DIR__ . '/../bootstrap.php';
  * @method static ReflectionConstantNames NEW()
  * @method static ReflectionConstantNames ACTIVE()
  */
-class ReflectionConstantNames extends \Grifart\Enum\Enum {
-
+class ReflectionConstantNames extends \Grifart\Enum\Enum
+{
 	use Grifart\Enum\AutoInstances;
 
 	protected const NEW = 'new';
-	protected const ACTIVE = 'active';
 
+	protected const ACTIVE = 'active';
 }
 
 \Tester\Assert::same('NEW', ReflectionConstantNames::NEW()->getConstantName());

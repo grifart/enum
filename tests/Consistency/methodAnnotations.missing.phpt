@@ -1,18 +1,18 @@
 <?php declare(strict_types=1);
 require __DIR__ . '/../bootstrap.php';
 
-
-class MethodAnnotationsMissing extends \Grifart\Enum\Enum {
-
+class MethodAnnotationsMissing extends \Grifart\Enum\Enum
+{
 	use Grifart\Enum\AutoInstances;
-	protected const STATE_A = 'a';
-	protected const STATE_B = 'b';
 
+	protected const STATE_A = 'a';
+
+	protected const STATE_B = 'b';
 }
 
 \Tester\Assert::exception(
 	function () {
-        MethodAnnotationsMissing::fromScalar('a');
+		MethodAnnotationsMissing::fromScalar('a');
 	},
 	\LogicException::class,
 	"You have forgotten to add @method annotations for enum 'MethodAnnotationsMissing'. Documentation block should contain:\n"

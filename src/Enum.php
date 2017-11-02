@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 
 namespace Grifart\Enum;
+
 use Grifart\Enum\Internal\InstanceRegister;
 use Grifart\Enum\Internal\Meta;
 
@@ -14,8 +15,9 @@ use Grifart\Enum\Internal\Meta;
  */
 abstract class Enum
 {
-
-	protected function __construct() {}
+	protected function __construct()
+	{
+	}
 
 	/**
 	 * Provide values for given enum.
@@ -55,7 +57,7 @@ abstract class Enum
 	{
 		return InstanceRegister::get(
 			static::class,
-			function(): Meta {
+			function (): Meta {
 				return Meta::from(
 					static::class,
 					static::getConstantToScalar(),
@@ -105,5 +107,4 @@ abstract class Enum
 	{
 		return self::getMeta()->getScalarForValue($this) === $theOtherScalarValue;
 	}
-
 }

@@ -8,10 +8,8 @@ final class Meta
 {
 	/** @var string */
 	private $class;
-
 	/** @var array */
 	private $constantToScalar;
-
 	/** @var \Grifart\Enum\Enum[] */
 	private $scalarToValue;
 
@@ -60,11 +58,10 @@ final class Meta
 		return isset($this->scalarToValue[$scalarValue]);
 	}
 
-
 	public function getConstantNameForScalar($scalarValue): string
 	{
 		$result = \array_search($scalarValue, $this->constantToScalar, true);
-		if($result === false) {
+		if ($result === false) {
 			throw new \RuntimeException("Could not find constant name for $scalarValue.");
 		}
 		return $result;
@@ -72,13 +69,12 @@ final class Meta
 
 	public function getScalarForValue(Enum $enum)
 	{
-		$result = \array_search($enum, $this->scalarToValue, TRUE);
+		$result = \array_search($enum, $this->scalarToValue, true);
 		if ($result === false) {
 			throw new \RuntimeException("Could not find scalar value given value.");
 		}
 		return $result;
 	}
-
 
 	public function getValueForScalar($scalar): Enum
 	{

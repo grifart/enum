@@ -6,14 +6,15 @@ require __DIR__ . '/../bootstrap.php';
  * @method static OrderState ACTIVE()
  * @method static OrderState DELIVERED()
  */
-class OrderState extends \Grifart\Enum\Enum {
-
+class OrderState extends \Grifart\Enum\Enum
+{
 	use Grifart\Enum\AutoInstances;
 
 	protected const NEW = 'new';
-	protected const ACTIVE = 'active';
-	protected const DELIVERED = 'delivered';
 
+	protected const ACTIVE = 'active';
+
+	protected const DELIVERED = 'delivered';
 }
 
 \Tester\Assert::same(OrderState::NEW(), OrderState::NEW());

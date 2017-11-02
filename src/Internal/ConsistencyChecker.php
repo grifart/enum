@@ -4,7 +4,6 @@ namespace Grifart\Enum\Internal;
 
 final class ConsistencyChecker
 {
-
 	public static function checkAnnotations(Meta $enumMeta): void
 	{
 		$enumReflection = new \ReflectionClass($enumMeta->getClass());
@@ -17,7 +16,7 @@ final class ConsistencyChecker
 	{
 		$docBlock = $enumReflection->getDocComment();
 		$className = $enumReflection->getShortName();
-		if ($docBlock === FALSE) {
+		if ($docBlock === false) {
 			$docBlock = '';
 		}
 
@@ -29,11 +28,10 @@ final class ConsistencyChecker
 			}
 		}
 
-		if(!empty($missingAnnotations)) {
+		if (!empty($missingAnnotations)) {
 			$properDoc = "/**\n * " . implode("\n * ", $missingAnnotations) . "\n */\n";
 			throw new \LogicException("You have forgotten to add @method annotations for enum '{$enumReflection->getName()}'. Documentation block should contain: \n$properDoc");
 		}
-
 		// todo: @method annotations without constants
 	}
 
@@ -41,7 +39,7 @@ final class ConsistencyChecker
 	{
 		// todo: instances without constants
 
-		foreach($enumMeta->getScalarValues() as $scalarValue) {
+		foreach ($enumMeta->getScalarValues() as $scalarValue) {
 			if (!$enumMeta->hasValueForScalar($scalarValue)) {
 				$constantName = $enumMeta->getConstantNameForScalar($scalarValue);
 				throw new \LogicException("You have forgotten to provide instance for $constantName.");
