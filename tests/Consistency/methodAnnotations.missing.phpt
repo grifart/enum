@@ -12,7 +12,7 @@ class MethodAnnotationsMissing extends \Grifart\Enum\Enum {
 
 \Tester\Assert::exception(
 	function () {
-		MethodAnnotationsMissing::fromScalar('a');
+        MethodAnnotationsMissing::fromScalar('a');
 	},
 	\LogicException::class,
 	"You have forgotten to add @method annotations for enum 'MethodAnnotationsMissing'. Documentation block should contain:\n"
