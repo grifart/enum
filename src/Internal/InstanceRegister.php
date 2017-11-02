@@ -21,7 +21,13 @@ final class InstanceRegister
 
 	public static function register(Meta $meta): void
 	{
-		ConsistencyChecker::checkAnnotations($meta);
+	    // check consistency of enum when assertions are enabled
+		assert(
+            (function() use ($meta): bool {
+                ConsistencyChecker::checkAnnotations($meta);
+                return true;
+            })()
+        );
 		self::$instances[$meta->getClass()] = $meta;
 	}
 
