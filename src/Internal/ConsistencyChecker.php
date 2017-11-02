@@ -2,8 +2,6 @@
 
 namespace Grifart\Enum\Internal;
 
-use Grifart\Enum\Internal\Meta;
-
 final class ConsistencyChecker
 {
 

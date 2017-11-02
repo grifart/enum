@@ -2,9 +2,6 @@
 
 namespace Grifart\Enum\Internal;
 
-use Grifart\Enum\Internal\ConsistencyChecker;
-use Grifart\Enum\Internal\Meta;
-
 final class InstanceRegister
 {
 
