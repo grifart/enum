@@ -1,0 +1,96 @@
+image: grifart/php7.2-with-gulp-and-all-php-modules
+
+
+# STAGES
+
+stages:
+- build
+- test
+
+
+
+# BUILDS
+
+# composer
+
+.build-composer-template: &build-composer-template
+  stage: build
+
+  artifacts:
+    expire_in: 2 hours
+    name: "${CI_BUILD_REF_NAME}_${CI_BUILD_NAME}"
+    paths:
+    - vendor
+
+build.composer.dev:
+  <<: *build-composer-template
+
+  script:
+  - composer install --no-interaction --ansi
+
+build.composer:
+  <<: *build-composer-template
+
+  script:
+  - composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --ansi
+
+
+
+
+# TESTS
+
+
+# php lint
+
+test.php-syntax-check:
+  stage: test
+
+  script:
+  - composer global require jakub-onderka/php-console-highlighter jakub-onderka/php-parallel-lint
+  - parallel-lint src
+
+
+# php stan
+
+test.phpstan:
+  stage: test
+
+  dependencies:
+  - build.composer.dev
+
+  script:
+  - composer run phpstan
+
+
+# tests
+
+.test.tests: &test-tests
+  stage: test
+
+  dependencies:
+  - build.composer.dev
+
+  script:
+  - composer run test
+
+  artifacts:
+    expire_in: 15 minutes
+    paths:
+    - log
+    - src # can contain assertion diffs
+    when: on_failure
+
+test.tests.php71:
+  <<: *test-tests
+  image: grifart/php7.1-with-gulp-and-all-php-modules
+
+test.tests.php71.oldDeps:
+  <<: *test-tests
+  before_script:
+  - composer update --prefer-lowest --no-interaction --ansi
+  image: grifart/php7.1-with-gulp-and-all-php-modules
+
+
+test.tests.php72:
+  <<: *test-tests
+  image: grifart/php7.2-with-gulp-and-all-php-modules
