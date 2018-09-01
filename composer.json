@@ -10,6 +10,11 @@
         }
     ],
 
+    "scripts": {
+        "phpstan": "vendor/bin/phpstan analyze -l 7 src tests --no-interaction --ansi --no-progress",
+        "test": "vendor/bin/tester tests --colors 1"
+    },
+
     "require": {
         "php": ">=7.1.0"
     },
