@@ -1,5 +1,7 @@
 # grifart/enum
 
+repositories: [GRIFART GitLab](https://gitlab.grifart.cz/jkuchar1/grifart-enum), [GitHub](https://github.com/grifart/enum)
+
 Enums represent predefined set of values. The available values are defined statically by each enum class. Each value is represented by an instance of this class in a flyweight manner.
 
 - This enum allows you to add individal behaviour to every enum value (as in Java). This allows you to transform your `switch`es/`if`s into more readable composition. (see example bellow)
