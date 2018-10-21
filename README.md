@@ -19,14 +19,14 @@ Let's **refactor** following existing code:
 ```php
 /**
  * @method static DayOfWeek MONDAY()
- * @method static DayOfWeek THURESDAY()
+ * @method static DayOfWeek TUESDAY()
  */
 final class DayOfWeek extends \Grifart\Enum\Enum
 {
     use Grifart\Enum\AutoInstances;
 
     private const MONDAY = 'monday';
-    private const THURESDAY = 'thuresday';
+    private const TUESDAY = 'tuesday';
     // ...
 
 }
@@ -36,7 +36,7 @@ $monday = DayOfWeek::MONDAY();
 function nextDay(DayOfWeek $dayOfWeek): DayOfWeek
 {
     if($dayOfWeek === DayOfWeek::MONDAY()) {
-        return DayOfWeek::THURESDAY();
+        return DayOfWeek::TUESDAY();
     } else if (...) {
         ...
     }
@@ -44,7 +44,7 @@ function nextDay(DayOfWeek $dayOfWeek): DayOfWeek
     throw new ShouldNotHappendException();
 }
 
-$thuresday = nextDay($monday);
+$tuesday = nextDay($monday);
 ```
 
 Look at function `nextDay()`, it is really concerned with `DayOfWeek` and nothing else. It probably should be part of `DayOfWeek`. Let's try to push behaviour down.
@@ -52,20 +52,20 @@ Look at function `nextDay()`, it is really concerned with `DayOfWeek` and nothin
 ```php
 /**
  * @method static DayOfWeek MONDAY()
- * @method static DayOfWeek THURESDAY()
+ * @method static DayOfWeek TUESDAY()
  */
 final class DayOfWeek extends \Grifart\Enum\Enum
 {
     use Grifart\Enum\AutoInstances;
 
     private const MONDAY = 'monday';
-    private const THURESDAY = 'thuresday';
+    private const TUESDAY = 'tuesday';
     // ...
 
     public function nextDay(): self
     {
         if($this === self::MONDAY()) {
-            return self::THURESDAY();
+            return self::TUESDAY();
         } else if (...) {
             ...
         }
@@ -80,7 +80,7 @@ Cool, lets try to use this enum in our application:
 
 ```php
 $monday = DayOfWeek::MONDAY();
-$thuresday = $monday->nextDay();
+$tuesday = $monday->nextDay();
 ```
 
 Public API now looks much better! Asking monday, what is the next day and it knows answer. ✅
@@ -97,13 +97,13 @@ What if every value of enum would be separate class? Then we can write behaviour
 ```php
 /**
  * @method static DayOfWeek MONDAY()
- * @method static DayOfWeek THURESDAY()
+ * @method static DayOfWeek TUESDAY()
  */
 abstract class DayOfWeek extends \Grifart\Enum\Enum
 {
 
 	protected const MONDAY = 'monday';
-	protected const THURESDAY = 'thuresday';
+	protected const TUESDAY = 'tuesday';
     // ...
 
     public abstract function nextDay(): self;
@@ -117,11 +117,11 @@ abstract class DayOfWeek extends \Grifart\Enum\Enum
 			{
 				public function nextDay(): DayOfWeek
 				{
-					return DayOfWeek::THURESDAY();
+					return DayOfWeek::TUESDAY();
 				}
 			},
 
-			self::THURESDAY => new class extends DayOfWeek
+			self::TUESDAY => new class extends DayOfWeek
 			{
 				public function nextDay(): DayOfWeek
 				{
