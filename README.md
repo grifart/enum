@@ -41,7 +41,7 @@ function nextDay(DayOfWeek $dayOfWeek): DayOfWeek
         ...
     }
 
-    throw new ShouldNotHappendException();
+    throw new ShouldNotHappenException();
 }
 
 $tuesday = nextDay($monday);
@@ -70,7 +70,7 @@ final class DayOfWeek extends \Grifart\Enum\Enum
             ...
         }
 
-        throw new ShouldNotHappendException();
+        throw new ShouldNotHappenException();
     }
     
 }
