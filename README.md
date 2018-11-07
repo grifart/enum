@@ -104,11 +104,11 @@ abstract class DayOfWeek extends \Grifart\Enum\Enum
 
 	protected const MONDAY = 'monday';
 	protected const TUESDAY = 'tuesday';
-    // ...
+	// ...
 
-    public abstract function nextDay(): self;
+	public abstract function nextDay(): self;
 
-    
+
     /** @return static[] */
 	protected static function provideInstances(): array
 	{
