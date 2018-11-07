@@ -109,7 +109,7 @@ abstract class DayOfWeek extends \Grifart\Enum\Enum
 	public abstract function nextDay(): self;
 
 
-    /** @return static[] */
+	/** @return static[] */
 	protected static function provideInstances(): array
 	{
 		return [
