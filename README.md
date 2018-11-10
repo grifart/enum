@@ -12,6 +12,15 @@ Common with other enum implementations:
 - You can type-hint: `function setCurrentDay(DayOfWeek $day) {`
 - You can get a list of all the possible values
 
+## Installation
+
+```bash
+composer require grifart/enum
+```
+
+This library uses [**semantic versioning 2.0**](https://semver.org/spec/v2.0.0.html).
+You can safely use `^` constrain in you `composer.json`.
+
 ## Let code speak: individual behaviour for each value
 
 Let's **refactor** following existing code:
