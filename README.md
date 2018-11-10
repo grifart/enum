@@ -220,7 +220,7 @@ Now type-system knows that every enum value must have method `nextDay()` with re
 This approach is very useful when one wants to implement anything state-machine related (see tests for more examples, they are simple and easy to read). 
 
 More use cases:
-- order state (new, in progress, delivering, delivered) and relations between them
+- order state: [show example](tests/Example/OrderState) - shows 5 styles of implementing this
 - day of week
 - tracking life-cycle
 
