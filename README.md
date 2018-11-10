@@ -153,7 +153,8 @@ More use cases:
 
 ## Big thanks
 
-To [David Grudl](https://github.com/dg) for making [nette/tester](https://github.com/nette/tester) and [Onřej Mirtes](https://github.com/ondrejmirtes) for making [phpstan](https://github.com/phpstan/phpstan).
+- [David Grudl](https://github.com/dg) for making [Nette Tester](https://github.com/nette/tester)
+- [Onřej Mirtes](https://github.com/ondrejmirtes) for making [PHP Stan](https://github.com/phpstan/phpstan).
 
 ## More reading
 
