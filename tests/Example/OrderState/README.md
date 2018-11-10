@@ -2,7 +2,7 @@
 
 In order state example I would like to demonstrate that there are more then one solution of domain problem of order state which can transition into another states.
 
-## 1. Class constants
+## 1. Class constants
 
 [source code](refactoring-1.phpt)
 
@@ -28,7 +28,7 @@ Nice thing is that we do not need anymore external service for asking `OrderStat
 
 Remaining problem is that there are still lot of ifs and we still need to handle case where someone adds new value into enum which we do not count with.
 
-## 4. Separate instance for each value
+## 4. Separate instance for each value
 
 [source code](refactoring-4.phpt)
 
