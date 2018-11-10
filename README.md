@@ -151,6 +151,10 @@ More use cases:
 - day of week
 - tracking life-cycle
 
+## Big thanks
+
+To [David Grudl](https://github.com/dg) for making [nette/tester](https://github.com/nette/tester) and [Onřej Mirtes](https://github.com/ondrejmirtes) for making [phpstan](https://github.com/phpstan/phpstan).
+
 ## More reading
 
 - [consistence/consistence enum](https://github.com/consistence/consistence/blob/master/docs/Enum/enums.md)
