@@ -23,8 +23,8 @@ abstract class ReflectionConstantNames2 extends \Grifart\Enum\Enum
 	protected static function provideInstances(): array
 	{
 		return [
-			self::NEW => new class extends ReflectionConstantNames2 {},
-			self::ACTIVE => new class extends ReflectionConstantNames2 {},
+			new class(self::NEW) extends ReflectionConstantNames2 {},
+			new class(self::ACTIVE) extends ReflectionConstantNames2 {},
 		];
 	}
 }

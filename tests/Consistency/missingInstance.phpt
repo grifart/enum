@@ -13,13 +13,12 @@ require __DIR__ . '/../bootstrap.php';
 class MissingInstanceEnum extends \Grifart\Enum\Enum
 {
 	protected const STATE_A = 'a';
-
 	protected const STATE_B = 'b';
 
 	protected static function provideInstances(): array
 	{
 		return [
-			self::STATE_A => new class extends MissingInstanceEnum
+			new class(self::STATE_A) extends MissingInstanceEnum
 			{
 			},
 		];

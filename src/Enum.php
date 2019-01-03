@@ -15,9 +15,6 @@ use Grifart\Enum\Internal\Meta;
  */
 abstract class Enum
 {
-	protected function __construct()
-	{
-	}
 
 	/**
 	 * Provide values for given enum, never call this method directly.
@@ -102,13 +99,25 @@ abstract class Enum
 		return $ref->getName();
 	}
 
+
+
+	// -------- INSTANCE IMPLEMENTATION ---------
+
+	/** @var int|string */
+	private $scalarValue;
+
+	protected function __construct($scalarValue)
+	{
+		$this->scalarValue = $scalarValue;
+	}
+
 	/**
 	 * Provides scalar representation of enum value.
 	 * @return int|string
 	 */
 	public function getScalarValue()
 	{
-		return self::getMeta()->getScalarForValue($this);
+		return $this->scalarValue;
 	}
 
 	/**

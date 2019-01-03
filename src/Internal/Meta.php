@@ -9,21 +9,54 @@ final class Meta
 {
 	/** @var string */
 	private $class;
-	/** @var array */
+
+	/** @var array<string,int|string> */
 	private $constantToScalar;
-	/** @var \Grifart\Enum\Enum[] */
+
+	/** @var array<int|string,Enum> */
 	private $scalarToValue;
 
-	private function __construct(string $class, array $constantToScalar, array $scalarToValue)
+	/**
+	 * @param string $class
+	 * @param array<string,string|int> $constantToScalar
+	 * @param Enum[] $values
+	 */
+	private function __construct(string $class, array $constantToScalar, array $values)
 	{
 		$this->class = $class;
 		$this->constantToScalar = $constantToScalar;
-		$this->scalarToValue = $scalarToValue;
+		$this->scalarToValue = $this->buildScalarToValueMapping($values); // requires constantToScalar to be already set!
 	}
 
-	public static function from(string $class, array $constantToScalar, array $scalarToValues): self
+	/**
+	 * @param Enum[] $values
+	 * @return array<string|int,Enum>
+	 */
+	private function buildScalarToValueMapping(array $values): array {
+		$scalarToValues = [];
+		foreach($values as $value) {
+			$scalar = $value->getScalarValue();
+			if (isset($scalarToValues[$scalar])) {
+				throw new \LogicException('You have provided duplicated values scalar names.');
+			}
+			if(!$this->hasConstantForScalar($scalar)) {
+				throw new \LogicException("Provided instance contains scalar value '$scalar'. But no corresponding constant of enum was found.");
+			}
+			$scalarToValues[$scalar] = $value;
+
+		}
+		return $scalarToValues;
+	}
+
+	/**
+	 * @param string $class
+	 * @param array<string,string|int> $constantToScalar
+	 * @param Enum[] $values
+	 * @return self
+	 */
+	public static function from(string $class, array $constantToScalar, array $values): self
 	{
-		return new self($class, $constantToScalar, $scalarToValues);
+		return new self($class, $constantToScalar, $values);
 	}
 
 	public function getClass(): string
@@ -31,18 +64,25 @@ final class Meta
 		return $this->class;
 	}
 
-	/** @return string[] */
+	/**
+	 * @return string[]
+	 */
 	public function getConstantNames(): array
 	{
 		return \array_keys($this->constantToScalar);
 	}
 
+	/**
+	 * @return string[]|int[]
+	 */
 	public function getScalarValues(): array
 	{
 		return \array_values($this->constantToScalar);
 	}
 
-	/** @return \Grifart\Enum\Enum[] */
+	/**
+	 * @return Enum[]
+	 */
 	public function getValues(): array
 	{
 		return \array_values($this->scalarToValue);
@@ -76,7 +116,7 @@ final class Meta
 	{
 		$result = \array_search($scalarValue, $this->constantToScalar, true);
 		if ($result === false) {
-			throw new \RuntimeException("Could not find constant name for $scalarValue.");
+			throw new \LogicException("Could not find constant name for $scalarValue.");
 		}
 		return $result;
 	}
@@ -88,7 +128,7 @@ final class Meta
 	{
 		$result = \array_search($enum, $this->scalarToValue, true);
 		if ($result === false) {
-			throw new \RuntimeException("Could not find scalar value given value.");
+			throw new \LogicException("Could not find scalar value given value.");
 		}
 		return $result;
 	}
@@ -103,5 +143,13 @@ final class Meta
 			throw new MissingValueDeclarationException("There is no value for enum '{$this->class}' and scalar value '$scalar'.");
 		}
 		return $this->scalarToValue[$scalar];
+	}
+
+	/**
+	 * @param string|int $scalar
+	 */
+	private function hasConstantForScalar($scalar): bool
+	{
+		return \in_array($scalar, $this->constantToScalar, TRUE);
 	}
 }
