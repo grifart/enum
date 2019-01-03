@@ -25,7 +25,10 @@
     "autoload": {
         "psr-4": {
             "Grifart\\Enum\\": "src"
-        }
+        },
+        "classmap": [
+            "src/exceptions.php"
+        ]
     },
 
     "require-dev": {
@@ -33,7 +36,9 @@
         "phpstan/phpstan": "^0.8.5"
     },
     "autoload-dev": {
-        
+        "files": [
+            "src/exceptions.php"
+        ]
     }
     
 }

@@ -1,4 +1,7 @@
 <?php declare(strict_types=1);
+
+use Grifart\Enum\MissingValueValueException;
+
 require __DIR__ . '/../bootstrap.php';
 
 /**
@@ -10,4 +13,10 @@ class Enum1 extends \Grifart\Enum\Enum
 	protected const VALUE = 'value';
 }
 
-Enum1::fromScalar('non-existing');
+\Tester\Assert::exception(
+	function () {
+		Enum1::fromScalar('non-existing');
+	},
+	MissingValueValueException::class,
+	"There is no value for enum 'Enum1' and scalar value 'non-existing'."
+);

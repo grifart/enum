@@ -36,7 +36,9 @@ abstract class Enum
 
 	/**
 	 * Builds enumeration from its scalar value.
+	 * @param string|int $scalar
 	 * @return static
+	 * @throws MissingValueValueException if there is no value for given scalar
 	 */
 	public static function fromScalar($scalar): Enum
 	{
