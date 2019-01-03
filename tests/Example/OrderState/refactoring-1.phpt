@@ -19,7 +19,7 @@ class OrderService
 {
 
 	public const STATE_RECEIVED = 'received';
-	public const STATE_PREPARING = 'preparing';
+	public const STATE_PROCESSING = 'processing';
 	public const STATE_FINISHED = 'finished';
 	public const STATE_CANCELLED = 'cancelled';
 
@@ -31,8 +31,8 @@ class OrderService
 
 		switch ($currentState) {
 			case self::STATE_RECEIVED:
-				return $desiredState === self::STATE_PREPARING || $desiredState === self::STATE_CANCELLED;
-			case self::STATE_PREPARING:
+				return $desiredState === self::STATE_PROCESSING || $desiredState === self::STATE_CANCELLED;
+			case self::STATE_PROCESSING:
 				return $desiredState === self::STATE_FINISHED;
 			case self::STATE_FINISHED:
 				return FALSE;
@@ -51,12 +51,12 @@ $orderService = new OrderService();
 Assert::true(
 	$orderService->canDoTransition(
 		OrderService::STATE_RECEIVED,
-		OrderService::STATE_PREPARING
+		OrderService::STATE_PROCESSING
 	)
 );
 Assert::true(
 	$orderService->canDoTransition(
-		OrderService::STATE_PREPARING,
+		OrderService::STATE_PROCESSING,
 		OrderService::STATE_FINISHED
 	)
 );
@@ -91,7 +91,7 @@ Assert::false(
 );
 Assert::false(
 	$orderService->canDoTransition(
-		OrderService::STATE_PREPARING,
+		OrderService::STATE_PROCESSING,
 		OrderService::STATE_CANCELLED
 	)
 );

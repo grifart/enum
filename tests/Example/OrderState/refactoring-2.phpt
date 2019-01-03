@@ -15,7 +15,7 @@ final class InvalidTransitionException extends \RuntimeException {}
 
 /**
  * @method static OrderState RECEIVED()
- * @method static OrderState PREPARING()
+ * @method static OrderState PROCESSING()
  * @method static OrderState FINISHED()
  * @method static OrderState CANCELLED()
  */
@@ -26,13 +26,12 @@ final class OrderState extends Enum
 
 	protected const
 		RECEIVED = 'received',
-		PREPARING = 'preparing',
+		PROCESSING = 'processing',
 		FINISHED = 'finished',
 
 		CANCELLED = 'cancelled';
 
 }
-
 
 class OrderService
 {
@@ -41,10 +40,10 @@ class OrderService
 	{
 
 		if ($currentState === OrderState::RECEIVED()) {
-			return $desiredState === OrderState::PREPARING() || $desiredState === OrderState::CANCELLED();
+			return $desiredState === OrderState::PROCESSING() || $desiredState === OrderState::CANCELLED();
 		}
 
-		if ($currentState === OrderState::PREPARING()) {
+		if ($currentState === OrderState::PROCESSING()) {
 			return $desiredState === OrderState::FINISHED();
 		}
 
@@ -67,12 +66,12 @@ $orderService = new OrderService();
 Assert::true(
 	$orderService->canDoTransition(
 		OrderState::RECEIVED(),
-		OrderState::PREPARING()
+		OrderState::PROCESSING()
 	)
 );
 Assert::true(
 	$orderService->canDoTransition(
-		OrderState::PREPARING(),
+		OrderState::PROCESSING(),
 		OrderState::FINISHED()
 	)
 );
@@ -107,7 +106,7 @@ Assert::false(
 );
 Assert::false(
 	$orderService->canDoTransition(
-		OrderState::PREPARING(),
+		OrderState::PROCESSING(),
 		OrderState::CANCELLED()
 	)
 );

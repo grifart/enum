@@ -16,7 +16,7 @@ final class InvalidTransitionException extends \RuntimeException {}
 
 /**
  * @method static OrderState RECEIVED()
- * @method static OrderState PREPARING()
+ * @method static OrderState PROCESSING()
  * @method static OrderState FINISHED()
  * @method static OrderState CANCELLED()
  */
@@ -27,7 +27,7 @@ final class OrderState extends Enum
 
 	protected const
 		RECEIVED = 'received',
-		PREPARING = 'preparing',
+		PROCESSING = 'processing',
 		FINISHED = 'finished',
 
 		CANCELLED = 'cancelled';
@@ -36,10 +36,10 @@ final class OrderState extends Enum
 	public function canDoTransition(OrderState $desiredState): bool
 	{
 		if ($this === self::RECEIVED()) {
-			return $desiredState === self::PREPARING() || $desiredState === self::CANCELLED();
+			return $desiredState === self::PROCESSING() || $desiredState === self::CANCELLED();
 		}
 
-		if ($this === self::PREPARING()) {
+		if ($this === self::PROCESSING()) {
 			return $desiredState === self::FINISHED();
 		}
 
@@ -59,11 +59,11 @@ final class OrderState extends Enum
 // Standard order flow:
 Assert::true(
 	OrderState::RECEIVED()->canDoTransition(
-		OrderState::PREPARING()
+		OrderState::PROCESSING()
 	)
 );
 Assert::true(
-	OrderState::PREPARING()->canDoTransition(
+	OrderState::PROCESSING()->canDoTransition(
 		OrderState::FINISHED()
 	)
 );
@@ -94,7 +94,7 @@ Assert::false(
 	)
 );
 Assert::false(
-	OrderState::PREPARING()->canDoTransition(
+	OrderState::PROCESSING()->canDoTransition(
 		OrderState::CANCELLED()
 	)
 );
@@ -103,4 +103,22 @@ Assert::false(
 		OrderState::CANCELLED()
 	)
 );
+
+
+
+
+
+
+
+
+
+$state1 = OrderState::RECEIVED();
+$state2 = OrderState::RECEIVED();
+Assert::true($state1 === $state2);
+
+$state3 = OrderState::PROCESSING();
+Assert::true($state1 !== $state3);
+Assert::true($state2 !== $state3);
+
+
 

@@ -16,7 +16,7 @@ final class InvalidTransitionException extends \RuntimeException {}
 
 /**
  * @method static OrderState RECEIVED()
- * @method static OrderState PREPARING()
+ * @method static OrderState PROCESSING()
  * @method static OrderState FINISHED()
  * @method static OrderState CANCELLED()
  */
@@ -25,7 +25,7 @@ final class OrderState extends Enum
 
 	protected const
 		RECEIVED = 'received',
-		PREPARING = 'preparing',
+		PROCESSING = 'processing',
 		FINISHED = 'finished',
 
 		CANCELLED = 'cancelled'; // domain logic: can be cancelled before preparation is started
@@ -57,8 +57,8 @@ final class OrderState extends Enum
 		// again and you will get infinite loop.
 
 		return [
-			self::RECEIVED => new self([self::PREPARING, self::CANCELLED]),
-			self::PREPARING => new self([self::FINISHED]),
+			self::RECEIVED => new self([self::PROCESSING, self::CANCELLED]),
+			self::PROCESSING => new self([self::FINISHED]),
 			self::FINISHED => new self([]),
 			self::CANCELLED => new self([]),
 		];
@@ -70,11 +70,11 @@ final class OrderState extends Enum
 // Standard order flow:
 Assert::true(
 	OrderState::RECEIVED()->canDoTransition(
-		OrderState::PREPARING()
+		OrderState::PROCESSING()
 	)
 );
 Assert::true(
-	OrderState::PREPARING()->canDoTransition(
+	OrderState::PROCESSING()->canDoTransition(
 		OrderState::FINISHED()
 	)
 );
@@ -104,7 +104,7 @@ Assert::false(
 	)
 );
 Assert::false(
-	OrderState::PREPARING()->canDoTransition(
+	OrderState::PROCESSING()->canDoTransition(
 		OrderState::CANCELLED()
 	)
 );

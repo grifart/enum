@@ -44,7 +44,7 @@ class Order
 
 /**
  * @method static OrderState RECEIVED()
- * @method static OrderState PREPARING()
+ * @method static OrderState PROCESSING()
  * @method static OrderState FINISHED()
  * @method static OrderState CANCELLED()
  */
@@ -52,7 +52,7 @@ abstract class OrderState extends Enum {
 
 	protected const
 		RECEIVED = 'received',
-		PREPARING = 'preparing',
+		PROCESSING = 'processing',
 		FINISHED = 'finished',
 
 		CANCELLED = 'cancelled'; // domain logic: can be cancelled before preparation is started
@@ -83,19 +83,17 @@ abstract class OrderState extends Enum {
 
 				public function canDoTransition(OrderState $nextState): bool
 				{
-					return $nextState === $this::PREPARING() || $nextState === $this::CANCELLED();
+					return $nextState === $this::PROCESSING() || $nextState === $this::CANCELLED();
 				}
 
 			},
 
 
-			self::PREPARING => new class extends OrderState {
-
+			self::PROCESSING => new class extends OrderState {
 				public function canDoTransition(OrderState $nextState): bool
 				{
 					return $nextState === $this::FINISHED();
 				}
-
 			},
 
 
@@ -134,7 +132,7 @@ abstract class OrderState extends Enum {
 (function() {
 	$order = new Order();
 	Assert::same('employee', $order->getEmployee());
-	$order->changeState(OrderState::PREPARING());
+	$order->changeState(OrderState::PROCESSING());
 	Assert::same('employee', $order->getEmployee());
 	$order->changeState(OrderState::FINISHED());
 	Assert::null($order->getEmployee());
@@ -159,13 +157,13 @@ Assert::exception(function () {
 
 Assert::exception(function () {
 	$order = new Order();
-	$order->changeState(OrderState::PREPARING());
+	$order->changeState(OrderState::PROCESSING());
 	$order->changeState(OrderState::CANCELLED()); // not allowed
 }, InvalidTransitionException::class);
 
 Assert::exception(function () {
 	$order = new Order();
-	$order->changeState(OrderState::PREPARING());
+	$order->changeState(OrderState::PROCESSING());
 	$order->changeState(OrderState::FINISHED());
 
 	$order->changeState(OrderState::CANCELLED()); // not allowed
