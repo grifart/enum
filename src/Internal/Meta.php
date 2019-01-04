@@ -3,7 +3,7 @@
 namespace Grifart\Enum\Internal;
 
 use Grifart\Enum\Enum;
-use Grifart\Enum\MissingValueValueException;
+use Grifart\Enum\MissingValueDeclarationException;
 
 final class Meta
 {
@@ -79,12 +79,12 @@ final class Meta
 
 	/**
 	 * @param int|string $scalar
-	 * @throws MissingValueValueException if there is no value for given scalar
+	 * @throws MissingValueDeclarationException if there is no value for given scalar
 	 */
 	public function getValueForScalar($scalar): Enum
 	{
 		if (!isset($this->scalarToValue[$scalar])) {
-			throw new MissingValueValueException("There is no value for enum '{$this->class}' and scalar value '$scalar'.");
+			throw new MissingValueDeclarationException("There is no value for enum '{$this->class}' and scalar value '$scalar'.");
 		}
 		return $this->scalarToValue[$scalar];
 	}

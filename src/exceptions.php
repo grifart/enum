@@ -14,4 +14,4 @@ namespace Grifart\Enum;
 final class UsageException extends \LogicException {}
 abstract class RuntimeException extends \RuntimeException {}
 
-final class MissingValueValueException extends RuntimeException {}
+final class MissingValueDeclarationException extends RuntimeException {}

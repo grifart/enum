@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-use Grifart\Enum\MissingValueValueException;
+use Grifart\Enum\MissingValueDeclarationException;
 
 require __DIR__ . '/../bootstrap.php';
 
@@ -17,6 +17,6 @@ class Enum1 extends \Grifart\Enum\Enum
 	function () {
 		Enum1::fromScalar('non-existing');
 	},
-	MissingValueValueException::class,
+	MissingValueDeclarationException::class,
 	"There is no value for enum 'Enum1' and scalar value 'non-existing'."
 );
