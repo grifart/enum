@@ -125,11 +125,11 @@ abstract class Enum
 	}
 
 	/**
-	 * @param mixed $that the other object we are comparing to
+	 * @param Enum $that the other object we are comparing to
 	 * @return bool if current value equals to the other value
 	 * If value is non-enum value, returns false (as they are also not equal).
 	 */
-	public function equals($that): bool
+	public function equals(Enum $that): bool
 	{
 		return $this === $that;
 	}
