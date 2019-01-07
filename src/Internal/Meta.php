@@ -49,6 +49,7 @@ final class Meta
 	}
 
 	/**
+	 * @param string $constantName
 	 * @throws MissingValueDeclarationException
 	 */
 	public function getValueForConstantName($constantName): ?Enum
@@ -60,11 +61,17 @@ final class Meta
 		return $this->getValueForScalar($scalar);
 	}
 
+	/**
+	 * @param string|int $scalarValue
+	 */
 	public function hasValueForScalar($scalarValue): bool
 	{
 		return isset($this->scalarToValue[$scalarValue]);
 	}
 
+	/**
+	 * @param string|int $scalarValue
+	 */
 	public function getConstantNameForScalar($scalarValue): string
 	{
 		$result = \array_search($scalarValue, $this->constantToScalar, true);
@@ -74,6 +81,9 @@ final class Meta
 		return $result;
 	}
 
+	/**
+	 * @return int|string
+	 */
 	public function getScalarForValue(Enum $enum)
 	{
 		$result = \array_search($enum, $this->scalarToValue, true);
