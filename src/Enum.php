@@ -48,12 +48,17 @@ abstract class Enum
 	/**
 	 * Provides access to values using ::CONSTANT_NAME() interface.
 	 * @return static
+	 * @throws MissingValueDeclarationException
 	 */
 	public static function __callStatic(string $constantName, array $arguments): Enum
 	{
 		\assert(empty($arguments));
 
-		return self::getMeta()->getValueForConstantName($constantName);
+		$value = self::getMeta()->getValueForConstantName($constantName);
+		if($value === NULL) {
+			throw new \Error('Call to undefined method ' . static::class . '::' . $constantName . '(). Please check that you have provided constant, annotation and value.');
+		}
+		return $value;
 	}
 
 	private static function getMeta(): Meta

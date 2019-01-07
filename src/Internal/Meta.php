@@ -48,10 +48,16 @@ final class Meta
 		return \array_values($this->scalarToValue);
 	}
 
-	public function getValueForConstantName($constantName): Enum
+	/**
+	 * @throws MissingValueDeclarationException
+	 */
+	public function getValueForConstantName($constantName): ?Enum
 	{
+		if(!isset($this->constantToScalar[$constantName])) {
+			return NULL;
+		}
 		$scalar = $this->constantToScalar[$constantName];
-		return $this->scalarToValue[$scalar];
+		return $this->getValueForScalar($scalar);
 	}
 
 	public function hasValueForScalar($scalarValue): bool
