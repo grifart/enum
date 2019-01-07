@@ -32,8 +32,8 @@
     },
 
     "require-dev": {
-        "nette/tester": "^1.7.0",
-        "phpstan/phpstan": "^0.8.5"
+        "nette/tester": "^2.1.0",
+        "phpstan/phpstan": "^0.10.7"
     },
     "autoload-dev": {
         "files": [
