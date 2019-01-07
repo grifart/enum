@@ -29,5 +29,5 @@ abstract class ReflectionConstantNames2 extends \Grifart\Enum\Enum
 	}
 }
 
-\Tester\Assert::same('new', ReflectionConstantNames2::NEW()->getScalarValue());
-\Tester\Assert::same('active', ReflectionConstantNames2::ACTIVE()->getScalarValue());
+\Tester\Assert::same('new', ReflectionConstantNames2::NEW()->getScalar());
+\Tester\Assert::same('active', ReflectionConstantNames2::ACTIVE()->getScalar());

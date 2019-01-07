@@ -35,7 +35,7 @@ final class Meta
 	private function buildScalarToValueMapping(array $values): array {
 		$scalarToValues = [];
 		foreach($values as $value) {
-			$scalar = $value->getScalarValue();
+			$scalar = $value->getScalar();
 			if (isset($scalarToValues[$scalar])) {
 				throw new \LogicException('You have provided duplicated values scalar names.');
 			}
