@@ -52,7 +52,7 @@ abstract class Enum
 	 */
 	public static function __callStatic(string $constantName, array $arguments): Enum
 	{
-		\assert(empty($arguments));
+		\assert(\count($arguments) === 0);
 
 		$value = self::getMeta()->getValueForConstantName($constantName);
 		if($value === NULL) {

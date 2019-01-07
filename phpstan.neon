@@ -1,0 +1,4 @@
+includes:
+	- vendor/phpstan/phpstan-strict-rules/rules.neon
+	- vendor/grifart/phpstan-oneline/config.neon
+
