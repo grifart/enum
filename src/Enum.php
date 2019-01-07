@@ -21,10 +21,19 @@ abstract class Enum
 	}
 
 	/**
-	 * Provide values for given enum.
-	 * @return array
+	 * Provide values for given enum, never call this method directly.
+	 * @return static[]
 	 */
 	abstract protected static function provideInstances(): array;
+
+	/**
+	 * @return static[] Order and array keys are not guaranteed.
+	 * For further value introspection use returned enum instances.
+	 */
+	final public static function getAvailableValues(): array
+	{
+		return self::getMeta()->getValues();
+	}
 
 	/**
 	 * @return string[]|int[]
