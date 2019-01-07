@@ -11,7 +11,17 @@
 namespace Grifart\Enum;
 
 // Project root exceptions:
-final class UsageException extends \LogicException {}
+
+use Throwable;
+
+class UsageException extends \LogicException {}
 abstract class RuntimeException extends \RuntimeException {}
 
 final class MissingValueDeclarationException extends RuntimeException {}
+
+final class ReflectionFailedException extends UsageException {
+	public function __construct(\ReflectionException $previous)
+	{
+		parent::__construct('PHP reflection failed.', 0, $previous);
+	}
+};

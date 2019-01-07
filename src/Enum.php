@@ -4,7 +4,6 @@ namespace Grifart\Enum;
 
 use Grifart\Enum\Internal\InstanceRegister;
 use Grifart\Enum\Internal\Meta;
-use PHPStan\Reflection\ClassReflection;
 
 /**
  * Enum
@@ -39,8 +38,13 @@ abstract class Enum
 	 * @return string[]|int[]
 	 */
 	protected static function getConstantToScalar(): array
-	{ // todo: move this to Meta?
-		return (new \ReflectionClass(static::class))->getConstants();
+	{
+		try {
+			return (new \ReflectionClass(static::class))
+				->getConstants();
+		} catch (\ReflectionException $e) {
+			throw new ReflectionFailedException($e);
+		}
 	}
 
 	/**
@@ -86,9 +90,13 @@ abstract class Enum
 
 	private static function getEnumClassName(): string
 	{
-		$ref = new \ReflectionClass(static::class);
-		if ($ref->isAnonymous()) { // anonymous objects are used for values
-			$ref = $ref->getMethod('provideInstances')->getDeclaringClass();
+		try {
+			$ref = new \ReflectionClass(static::class);
+			if ($ref->isAnonymous()) { // anonymous objects are used for values
+				$ref = $ref->getMethod('provideInstances')->getDeclaringClass();
+			}
+		} catch (\ReflectionException $e) {
+			throw new ReflectionFailedException($e);
 		}
 
 		return $ref->getName();
