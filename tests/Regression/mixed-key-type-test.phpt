@@ -16,13 +16,11 @@ class EnumMixedKeys extends \Grifart\Enum\Enum
 	private const VALUE_INT = 1;
 }
 
-\Tester\Assert::false(
-	EnumMixedKeys::VALUE_INT() === EnumMixedKeys::VALUE_STRING()
-);
-\Tester\Assert::false(EnumMixedKeys::VALUE_INT() == EnumMixedKeys::VALUE_STRING());
-
-\Tester\Assert::false(
-	EnumMixedKeys::VALUE_INT()->equalsScalarValue(
-		EnumMixedKeys::VALUE_STRING()->getScalarValue()
-	)
+\Tester\Assert::exception(
+	function() {
+		// first access triggers initial enum validation
+		EnumMixedKeys::VALUE_INT();
+	},
+	\Grifart\Enum\UsageException::class,
+	'Mixed types of scalar value. Keys must either all string or all int.'
 );

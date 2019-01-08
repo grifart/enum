@@ -4,6 +4,7 @@ namespace Grifart\Enum\Internal;
 
 use Grifart\Enum\Enum;
 use Grifart\Enum\MissingValueDeclarationException;
+use Grifart\Enum\UsageException;
 
 final class Meta
 {
@@ -34,13 +35,26 @@ final class Meta
 	 */
 	private function buildScalarToValueMapping(array $values): array {
 		$scalarToValues = [];
+
+		// check type of all scalar values
+		$keyType = null;
+		foreach($values as $value) {
+			$scalar = $value->getScalar();
+			if ($keyType === NULL) {
+				$keyType = \gettype($scalar);
+			}
+			if ($keyType !== \gettype($scalar)) {
+				throw new UsageException('Mixed types of scalar value. Keys must either all string or all int.');
+			}
+		}
+
 		foreach($values as $value) {
 			$scalar = $value->getScalar();
 			if (isset($scalarToValues[$scalar])) {
-				throw new \LogicException('You have provided duplicated values scalar names.');
+				throw new \LogicException('You have provided duplicated scalar values.');
 			}
 			if(!$this->hasConstantForScalar($scalar)) {
-				throw new \LogicException("Provided instance contains scalar value '$scalar'. But no corresponding constant of enum was found.");
+				throw new \LogicException("Provided instance contains scalar value '$scalar'. But no corresponding constant was found.");
 			}
 			$scalarToValues[$scalar] = $value;
 
