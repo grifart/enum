@@ -48,7 +48,48 @@ It is therefore safe to lock your project to a given release cycle, such as 0.1.
 
 If you need to upgrade to a newer release cycle, check the release history for a list of changes introduced by each further 0.x.0 version.
 
-## Let code speak: individual behaviour for each value
+## Overview
+
+### Static methods
+
+- fromScalar() - returns enum instance (value) for given scalar
+- getAvailableValues() - returns all values for given type
+- provideInstances() - implement to return enum instances or automatically implemented by `Grifart\Enum\AutoInstances` trait.
+
+### Instance methods
+
+- toScalar() - return scalar value identifier
+- equals() - returns true if the same enum value is passed
+- scalarEquals() - returns true if passed scalar value is equal to current value
+
+### Basic enumeration
+
+```php
+/**
+ * @method static DayOfWeek MONDAY()
+ * @method static DayOfWeek TUESDAY()
+ */
+final class DayOfWeek extends \Grifart\Enum\Enum
+{
+    use Grifart\Enum\AutoInstances;
+
+    private const MONDAY = 'monday';
+    private const TUESDAY = 'tuesday';
+    // ...
+
+    public function process(self $value): void { /* ... */ }
+
+}
+
+$monday = DayOfWeek::MONDAY();
+$monday->process(DayOfWeek::TUESDAY());
+````
+
+### Migrating from class constants
+
+This guide show how to migrate from classes with constants to `\Grifart\Enum` with ease. [Continue to example](tests/Example/MigratingLegacyCode/readme.md)
+
+### Adding behaviour to values
 
 Let's **refactor** following existing code:
 
@@ -182,10 +223,6 @@ More use cases:
 - order state (new, in progress, delivering, delivered) and relations between them
 - day of week
 - tracking life-cycle
-
-## Migrating legacy code
-
-This guide show how to migrate from classes with constants to `\Grifart\Enum` with ease. [Continue to example](tests/Example/MigratingLegacyCode/readme.md)
 
 ## Big thanks
 
