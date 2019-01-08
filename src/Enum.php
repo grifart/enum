@@ -123,6 +123,14 @@ abstract class Enum
 		return $this->scalarValue;
 	}
 
+	public function __toString(): string
+	{
+		// as enum does not allow mixed key types (all must be int or all string),
+		// we can safely convert integers to strings without worrying introducing
+		// value conflicts
+		return (string) $this->toScalar();
+	}
+
 	/**
 	 * Retrieves constant name that is used to access enum value.
 	 *
