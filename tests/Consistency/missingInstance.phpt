@@ -2,6 +2,7 @@
 
 namespace Tests\Grifart\Enum\Consistency;
 
+use Grifart\Enum\UsageException;
 use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
@@ -28,16 +29,16 @@ class MissingInstanceEnum extends \Grifart\Enum\Enum
 $message = 'You have forgotten to provide instance for STATE_B.';
 Assert::exception(function () {
 	MissingInstanceEnum::STATE_A();
-}, \LogicException::class, $message);
+}, UsageException::class, $message);
 
 Assert::exception(function () {
 	MissingInstanceEnum::STATE_B();
-}, \LogicException::class, $message);
+}, UsageException::class, $message);
 
 Assert::exception(function () {
 	MissingInstanceEnum::fromScalar('a');
-}, \LogicException::class, $message);
+}, UsageException::class, $message);
 
 Assert::exception(function () {
 	MissingInstanceEnum::fromScalar('b');
-}, \LogicException::class, $message);
+}, UsageException::class, $message);
