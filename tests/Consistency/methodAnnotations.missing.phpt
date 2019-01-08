@@ -14,7 +14,7 @@ class MethodAnnotationsMissing extends \Grifart\Enum\Enum
 	function () {
 		MethodAnnotationsMissing::fromScalar('a');
 	},
-	\LogicException::class,
+	\Grifart\Enum\UsageException::class,
 	"You have forgotten to add @method annotations for enum 'MethodAnnotationsMissing'. Documentation block should contain:\n"
 	. "/**\n"
 	. " * @method static MethodAnnotationsMissing STATE_A()\n"

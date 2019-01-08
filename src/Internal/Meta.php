@@ -51,10 +51,10 @@ final class Meta
 		foreach($values as $value) {
 			$scalar = $value->getScalar();
 			if (isset($scalarToValues[$scalar])) {
-				throw new \LogicException('You have provided duplicated scalar values.');
+				throw new UsageException('You have provided duplicated scalar values.');
 			}
 			if(!$this->hasConstantForScalar($scalar)) {
-				throw new \LogicException("Provided instance contains scalar value '$scalar'. But no corresponding constant was found.");
+				throw new UsageException("Provided instance contains scalar value '$scalar'. But no corresponding constant was found.");
 			}
 			$scalarToValues[$scalar] = $value;
 
@@ -130,7 +130,7 @@ final class Meta
 	{
 		$result = \array_search($scalarValue, $this->constantToScalar, true);
 		if ($result === false) {
-			throw new \LogicException("Could not find constant name for $scalarValue.");
+			throw new UsageException("Could not find constant name for $scalarValue.");
 		}
 		return $result;
 	}
@@ -142,7 +142,7 @@ final class Meta
 	{
 		$result = \array_search($enum, $this->scalarToValue, true);
 		if ($result === false) {
-			throw new \LogicException("Could not find scalar value given value.");
+			throw new UsageException("Could not find scalar for given instance.");
 		}
 		return $result;
 	}
