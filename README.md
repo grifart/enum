@@ -2,7 +2,9 @@
 
 Enumeration value object. Enumerate values and behaviour with type-safety.
 
-Repositories [gitlab.grifart.cz](https://gitlab.grifart.cz/jkuchar1/grifart-enum) and [github.com](https://github.com/grifart/enum).
+Repositories [gitlab.grifart.cz](https://gitlab.grifart.cz/jkuchar1/grifart-enum)
+and [github.com](https://github.com/grifart/enum).
+[![pipeline status](https://gitlab.grifart.cz/jkuchar1/grifart-enum/badges/master/pipeline.svg)](https://gitlab.grifart.cz/jkuchar1/grifart-enum/commits/master)
 
 Sponsored by [grifart.com](https://grifart.com).
 
