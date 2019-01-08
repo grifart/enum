@@ -34,7 +34,7 @@ This is done by
 - by automatically implementing enum values by including `use \Grifart\Enum\AutoInstances;` trait
 - and by adding magic methods annotations
 
-When you do this there is not backward incompatible change introduced. But... Now you can use new API.
+There is not backward incompatible change introduced. And now you can use new APIs!
 
 
 ```php
@@ -49,7 +49,7 @@ class OrderState extends \Grifart\Enum\Enum {
 }
 ```
 
-## Step 2: Migrating code and discontinuing old API [[source](step2.phpt)]
+## Step 2: Migrating existing code to new API [[source](step2.phpt)]
 
 Migrating old code to new API is usually easy, just add parenthesis `()` when you access value.
 
@@ -72,6 +72,8 @@ Assert::same('new', $result);
 
 Please note, that you will need to handle some cases manually as `OrderState::NEW()` returns object, enum instance, not a string.
 
+#### Removing old API
+
 So when you are finally ready to remove old API, just change constant visibility to `private`.
 
 ```php
@@ -86,8 +88,8 @@ class OrderState extends \Grifart\Enum\Enum {
 }
 ```
 
-# Step 3: Enjoy new features [[source](step3.phpt)]
+## Step 3: Enjoy new features [[source](step3.phpt)]
 
-Now, when you decide that you what to move your business logic into enum, you are free to do so. Or you can split logic using composition.
+Now, when you decided that you what to move your business logic inside enum declaration. You are now free to do so. And there are many more options, see other examples.
 
 

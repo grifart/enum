@@ -87,7 +87,7 @@ $monday->process(DayOfWeek::TUESDAY());
 
 ### Migrating from class constants
 
-This guide show how to migrate from classes with constants to `\Grifart\Enum` with ease. [Continue to example](tests/Example/MigratingLegacyCode/readme.md)
+This guide show how to migrate from classes with constants to `\Grifart\Enum` in few simple steps. [Continue to example](tests/Example/MigratingLegacyCode/readme.md)
 
 ### Adding behaviour to values
 
@@ -116,11 +116,11 @@ function nextDay(DayOfWeek $dayOfWeek): DayOfWeek
 		case DayOfWeek::MONDAY():
 			return DayOfWeek::TUESDAY();
     
-        case DayOfWeek::TUESDAY():
+		case DayOfWeek::TUESDAY():
 			// ...
 	
 	}
-    throw new ShouldNotHappenException();
+	throw new ShouldNotHappenException();
 }
 
 $tuesday = nextDay($monday);
