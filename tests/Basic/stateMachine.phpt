@@ -16,14 +16,14 @@ abstract class StateMachine extends \Grifart\Enum\Enum
 	protected static function provideInstances(): array
 	{
 		return [
-			self::STATE_A => new class extends StateMachine
+			new class(self::STATE_A) extends StateMachine
 			{
 				public function canDoTransitionTo(StateMachine $targetState): bool
 				{
 					return $targetState === StateMachine::STATE_B();
 				}
 			},
-			self::STATE_B => new class extends StateMachine
+			new class(self::STATE_B) extends StateMachine
 			{
 				public function canDoTransitionTo(StateMachine $targetState): bool
 				{

@@ -15,9 +15,6 @@ use Grifart\Enum\Internal\Meta;
  */
 abstract class Enum
 {
-	protected function __construct()
-	{
-	}
 
 	/**
 	 * Provide values for given enum, never call this method directly.
@@ -102,25 +99,40 @@ abstract class Enum
 		return $ref->getName();
 	}
 
+
+
+	// -------- INSTANCE IMPLEMENTATION ---------
+
+	/** @var int|string */
+	private $scalar;
+
+	/**
+	 * @param int|string $scalar
+	 */
+	protected function __construct($scalar)
+	{
+		$this->scalar = $scalar;
+	}
+
 	/**
 	 * Provides scalar representation of enum value.
 	 * @return int|string
 	 */
-	public function getScalarValue()
+	public function getScalar()
 	{
-		return self::getMeta()->getScalarForValue($this);
+		return $this->scalar;
 	}
 
 	/**
 	 * Retrieves constant name that is used to access enum value.
 	 *
-	 * Note: do not depend on this values, as it can change anytime. This value can be
+	 * @internal Do not depend on this values, as it can change anytime. This value can be
 	 * subject of refactorings of user-defined enums.
 	 */
 	public function getConstantName(): string
 	{
 		return self::getMeta()->getConstantNameForScalar(
-			self::getMeta()->getScalarForValue($this)
+			$this->getScalar()
 		);
 	}
 
@@ -138,8 +150,8 @@ abstract class Enum
 	 * @param int|string $theOtherScalarValue
 	 * @return bool true if current scalar representation of value equals to given scalar value
 	 */
-	public function equalsScalarValue($theOtherScalarValue): bool
+	public function scalarEquals($theOtherScalarValue): bool
 	{
-		return self::getMeta()->getScalarForValue($this) === $theOtherScalarValue;
+		return $this->getScalar() === $theOtherScalarValue;
 	}
 }

@@ -17,5 +17,5 @@ class EqualsState extends \Grifart\Enum\Enum
 \Tester\Assert::true(EqualsState::NEW()->equals(EqualsState::NEW()));
 \Tester\Assert::false(EqualsState::NEW()->equals(EqualsState::ACTIVE()));
 
-\Tester\Assert::true(EqualsState::NEW()->equalsScalarValue('new'));
-\Tester\Assert::false(EqualsState::NEW()->equalsScalarValue('active'));
+\Tester\Assert::true(EqualsState::NEW()->scalarEquals('new'));
+\Tester\Assert::false(EqualsState::NEW()->scalarEquals('active'));
