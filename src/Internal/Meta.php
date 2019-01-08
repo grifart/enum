@@ -39,7 +39,7 @@ final class Meta
 		// check type of all scalar values
 		$keyType = null;
 		foreach($values as $value) {
-			$scalar = $value->getScalar();
+			$scalar = $value->toScalar();
 			if ($keyType === NULL) {
 				$keyType = \gettype($scalar);
 			}
@@ -49,7 +49,7 @@ final class Meta
 		}
 
 		foreach($values as $value) {
-			$scalar = $value->getScalar();
+			$scalar = $value->toScalar();
 			if (isset($scalarToValues[$scalar])) {
 				throw new UsageException('You have provided duplicated scalar values.');
 			}

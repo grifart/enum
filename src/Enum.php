@@ -104,23 +104,23 @@ abstract class Enum
 	// -------- INSTANCE IMPLEMENTATION ---------
 
 	/** @var int|string */
-	private $scalar;
+	private $scalarValue;
 
 	/**
-	 * @param int|string $scalar
+	 * @param int|string $scalarValue
 	 */
-	protected function __construct($scalar)
+	protected function __construct($scalarValue)
 	{
-		$this->scalar = $scalar;
+		$this->scalarValue = $scalarValue;
 	}
 
 	/**
-	 * Provides scalar representation of enum value.
+	 * Returns scalar representation of enum value.
 	 * @return int|string
 	 */
-	public function getScalar()
+	public function toScalar()
 	{
-		return $this->scalar;
+		return $this->scalarValue;
 	}
 
 	/**
@@ -132,7 +132,7 @@ abstract class Enum
 	public function getConstantName(): string
 	{
 		return self::getMeta()->getConstantNameForScalar(
-			$this->getScalar()
+			$this->toScalar()
 		);
 	}
 
@@ -152,6 +152,6 @@ abstract class Enum
 	 */
 	public function scalarEquals($theOtherScalarValue): bool
 	{
-		return $this->getScalar() === $theOtherScalarValue;
+		return $this->toScalar() === $theOtherScalarValue;
 	}
 }

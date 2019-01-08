@@ -23,5 +23,5 @@ class OrderState extends \Grifart\Enum\Enum
 \Tester\Assert::notSame(OrderState::NEW(), OrderState::DELIVERED());
 \Tester\Assert::notSame(OrderState::ACTIVE(), OrderState::DELIVERED());
 
-\Tester\Assert::same('active', OrderState::ACTIVE()->getScalar());
+\Tester\Assert::same('active', OrderState::ACTIVE()->toScalar());
 \Tester\Assert::same(OrderState::ACTIVE(), OrderState::fromScalar('active'));
