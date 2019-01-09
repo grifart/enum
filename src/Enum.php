@@ -6,12 +6,13 @@ use Grifart\Enum\Internal\InstanceRegister;
 use Grifart\Enum\Internal\Meta;
 
 /**
- * Enum
+ * Enumeration class with support for strong-typing support and behaviour-rich values.
  *
- * Three concepts:
- * - constant name = used to refer to enum value
- * - value = the enum instance
- * - scalar value = scalar value of enum, must be unique, used for serialization
+ * Three basic concepts:
+ * - **value**    = the enum instance
+ * - **scalar**   = scalar identifier of enum value; typically used in persistence layer to refer to particular value
+ * - **constant** = each value has associated class constant, which is used to refer to value from code.
+ *      Constant name is used to generate static method for each of them. Constants are therefore usually not public.
  */
 abstract class Enum
 {
@@ -32,13 +33,12 @@ abstract class Enum
 	}
 
 	/**
-	 * @return string[]|int[]
+	 * @return array<string,string|int>
 	 */
 	protected static function getConstantToScalar(): array
 	{
 		try {
-			return (new \ReflectionClass(static::class))
-				->getConstants();
+			return (new \ReflectionClass(static::class))->getConstants();
 		} catch (\ReflectionException $e) {
 			throw new ReflectionFailedException($e);
 		}
@@ -71,13 +71,21 @@ abstract class Enum
 		return $value;
 	}
 
-	private static function getMeta(): Meta
+	private static function getMeta(bool $checkIfAccessingRootDirectly = true): Meta
 	{
+		$rootClass = static::getRootClass();
+		if ($checkIfAccessingRootDirectly && $rootClass !== static::class) {
+			throw new UsageException(
+				'You have accessed static enum method on non-root class '
+				. "('$rootClass' is a root class)"
+			);
+		}
+
 		return InstanceRegister::get(
-			static::getEnumClassName(),
-			function (): Meta {
+			$rootClass,
+			function () use ($rootClass): Meta {
 				return Meta::from(
-					static::getEnumClassName(),
+					$rootClass,
 					static::getConstantToScalar(),
 					static::provideInstances()
 				);
@@ -85,18 +93,17 @@ abstract class Enum
 		);
 	}
 
-	private static function getEnumClassName(): string
+	private static function getRootClass(): string
 	{
 		try {
-			$ref = new \ReflectionClass(static::class);
-			if ($ref->isAnonymous()) { // anonymous objects are used for values
-				$ref = $ref->getMethod('provideInstances')->getDeclaringClass();
-			}
+			return (new \ReflectionClass(static::class))
+				->getMethod('provideInstances')
+				->getDeclaringClass()
+				->getName();
+
 		} catch (\ReflectionException $e) {
 			throw new ReflectionFailedException($e);
 		}
-
-		return $ref->getName();
 	}
 
 
@@ -139,7 +146,7 @@ abstract class Enum
 	 */
 	public function getConstantName(): string
 	{
-		return self::getMeta()->getConstantNameForScalar(
+		return $this::getMeta(FALSE)->getConstantNameForScalar(
 			$this->toScalar()
 		);
 	}

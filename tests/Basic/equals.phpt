@@ -5,7 +5,7 @@ require __DIR__ . '/../bootstrap.php';
  * @method static EqualsState NEW()
  * @method static EqualsState ACTIVE()
  */
-class EqualsState extends \Grifart\Enum\Enum
+final class EqualsState extends \Grifart\Enum\Enum
 {
 	use Grifart\Enum\AutoInstances;
 

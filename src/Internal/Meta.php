@@ -4,6 +4,7 @@ namespace Grifart\Enum\Internal;
 
 use Grifart\Enum\Enum;
 use Grifart\Enum\MissingValueDeclarationException;
+use Grifart\Enum\ReflectionFailedException;
 use Grifart\Enum\UsageException;
 
 final class Meta
@@ -76,6 +77,15 @@ final class Meta
 	public function getClass(): string
 	{
 		return $this->class;
+	}
+
+	public function getClassReflection(): \ReflectionClass
+	{
+		try {
+			return new \ReflectionClass($this->getClass());
+		} catch (\ReflectionException $e) {
+			throw new ReflectionFailedException($e);
+		}
 	}
 
 	/**

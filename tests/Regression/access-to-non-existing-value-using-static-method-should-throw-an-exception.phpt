@@ -5,7 +5,7 @@ require __DIR__ . '/../bootstrap.php';
 /**
  * @method static Enum1 VALUE()
  */
-class Enum1 extends \Grifart\Enum\Enum
+final class Enum1 extends \Grifart\Enum\Enum
 {
 	use Grifart\Enum\AutoInstances;
 	protected const VALUE = 'value';
