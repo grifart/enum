@@ -79,7 +79,7 @@ abstract class OrderState extends Enum {
 	final protected static function provideInstances(): array
 	{
 		return [
-			self::RECEIVED => new class extends OrderState {
+			new class(self::RECEIVED) extends OrderState {
 
 				public function canDoTransition(OrderState $nextState): bool
 				{
@@ -89,7 +89,7 @@ abstract class OrderState extends Enum {
 			},
 
 
-			self::PROCESSING => new class extends OrderState {
+			new class(self::PROCESSING) extends OrderState {
 				public function canDoTransition(OrderState $nextState): bool
 				{
 					return $nextState === $this::FINISHED();
@@ -97,7 +97,7 @@ abstract class OrderState extends Enum {
 			},
 
 
-			self::FINISHED => new class extends OrderState {
+			new class(self::FINISHED) extends OrderState {
 
 				public function canDoTransition(OrderState $nextState): bool
 				{
@@ -112,7 +112,7 @@ abstract class OrderState extends Enum {
 			},
 
 
-			self::CANCELLED => new class extends OrderState {
+			new class(self::CANCELLED) extends OrderState {
 
 				public function canDoTransition(OrderState $nextState): bool
 				{

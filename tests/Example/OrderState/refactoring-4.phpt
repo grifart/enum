@@ -38,14 +38,15 @@ final class OrderState extends Enum
 	/**
 	 * @param string[] $nextAllowedStates
 	 */
-	protected function __construct(array $nextAllowedStates)
+	protected function __construct($scalar, array $nextAllowedStates)
 	{
+		parent::__construct($scalar);
 		$this->nextAllowedStates = $nextAllowedStates;
 	}
 
 	public function canDoTransition(OrderState $nextState): bool
 	{
-		return \in_array($nextState->getScalarValue(), $this->nextAllowedStates, TRUE);
+		return \in_array($nextState->toScalar(), $this->nextAllowedStates, TRUE);
 	}
 
 
@@ -57,10 +58,10 @@ final class OrderState extends Enum
 		// again and you will get infinite loop.
 
 		return [
-			self::RECEIVED => new self([self::PROCESSING, self::CANCELLED]),
-			self::PROCESSING => new self([self::FINISHED]),
-			self::FINISHED => new self([]),
-			self::CANCELLED => new self([]),
+			new self(self::RECEIVED, [self::PROCESSING, self::CANCELLED]),
+			new self(self::PROCESSING, [self::FINISHED]),
+			new self(self::FINISHED, []),
+			new self(self::CANCELLED, []),
 		];
 	}
 }

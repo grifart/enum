@@ -102,7 +102,7 @@ Assert::false(
 	)
 );
 
-// check for invalid completely invalid arguments
+// check for completely invalid arguments
 Assert::exception(function () use ($orderService) {
 	$orderService->canDoTransition('invalid', 'non-existing');
 }, \LogicException::class);
