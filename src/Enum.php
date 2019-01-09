@@ -33,13 +33,12 @@ abstract class Enum
 	}
 
 	/**
-	 * @return string[]|int[]
+	 * @return array<string,string|int>
 	 */
 	protected static function getConstantToScalar(): array
 	{
 		try {
-			return (new \ReflectionClass(static::class))
-				->getConstants();
+			return (new \ReflectionClass(static::class))->getConstants();
 		} catch (\ReflectionException $e) {
 			throw new ReflectionFailedException($e);
 		}
