@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-use Grifart\Enum\MissingValueDeclarationException;
-
 require __DIR__ . '/../bootstrap.php';
 
 /**
