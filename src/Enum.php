@@ -72,10 +72,18 @@ abstract class Enum
 		return $value;
 	}
 
-	private static function getMeta(): Meta
+	private static function getMeta(bool $checkIfAccessingRootDirectly = true): Meta
 	{
+		$rootClass = static::getRootClass();
+		if ($checkIfAccessingRootDirectly && $rootClass !== static::class) {
+			throw new UsageException(
+				'You have accessed static enum method on non-root class '
+				. "('$rootClass' is a root class)"
+			);
+		}
+
 		return InstanceRegister::get(
-			$rootClass = static::getEnumRootClass(),
+			$rootClass,
 			function () use ($rootClass): Meta {
 				return Meta::from(
 					$rootClass,
@@ -86,18 +94,17 @@ abstract class Enum
 		);
 	}
 
-	private static function getEnumRootClass(): string
+	private static function getRootClass(): string
 	{
 		try {
-			$ref = new \ReflectionClass(static::class);
-			if ($ref->isAnonymous()) { // anonymous objects are used for values
-				$ref = $ref->getMethod('provideInstances')->getDeclaringClass();
-			}
+			return (new \ReflectionClass(static::class))
+				->getMethod('provideInstances')
+				->getDeclaringClass()
+				->getName();
+
 		} catch (\ReflectionException $e) {
 			throw new ReflectionFailedException($e);
 		}
-
-		return $ref->getName();
 	}
 
 
@@ -140,7 +147,7 @@ abstract class Enum
 	 */
 	public function getConstantName(): string
 	{
-		return self::getMeta()->getConstantNameForScalar(
+		return $this::getMeta(FALSE)->getConstantNameForScalar(
 			$this->toScalar()
 		);
 	}
