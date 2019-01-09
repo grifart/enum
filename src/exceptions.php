@@ -11,9 +11,6 @@
 namespace Grifart\Enum;
 
 // Project root exceptions:
-
-use Throwable;
-
 class UsageException extends \LogicException {}
 abstract class RuntimeException extends \RuntimeException {}
 
