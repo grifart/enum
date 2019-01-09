@@ -4,18 +4,21 @@ namespace Grifart\Enum\Internal;
 
 use Grifart\Enum\UsageException;
 
+/**
+ * Checks if registering enum does not contain error.
+ */
 final class ConsistencyChecker
 {
 	public static function checkAnnotations(Meta $enumMeta): void
 	{
-		$enumReflection = new \ReflectionClass($enumMeta->getClass());
-
-		self::checkCallStaticAnnotations($enumMeta, $enumReflection);
-		self::checkAllInstancesProvided($enumMeta, $enumReflection->getName());
+		self::checkCallStaticAnnotations($enumMeta);
+		self::checkAllInstancesProvided($enumMeta);
 	}
 
-	private static function checkCallStaticAnnotations(Meta $enumMeta, \ReflectionClass $enumReflection): void
+	private static function checkCallStaticAnnotations(Meta $enumMeta): void
 	{
+		$enumReflection = $enumMeta->getClassReflection();
+
 		$docBlock = $enumReflection->getDocComment();
 		$className = $enumReflection->getShortName();
 		if ($docBlock === false) {
@@ -37,7 +40,7 @@ final class ConsistencyChecker
 		// todo: @method annotations without constants
 	}
 
-	private static function checkAllInstancesProvided(Meta $enumMeta, string $className): void
+	private static function checkAllInstancesProvided(Meta $enumMeta): void
 	{
 		// todo: instances without constants
 

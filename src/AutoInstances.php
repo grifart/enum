@@ -2,9 +2,12 @@
 
 namespace Grifart\Enum;
 
+/**
+ * Allows you to use you defined constants automatically as enum value.
+ * Without explicitly implementing each enum value.
+ */
 trait AutoInstances
 {
-	// todo: better define this interface
 	abstract protected static function getConstantToScalar(): array;
 
 	/** @param string|int $scalar */
@@ -13,8 +16,8 @@ trait AutoInstances
 	protected static function provideInstances(): array
 	{
 		$instances = [];
-		foreach (static::getConstantToScalar() as $constantName => $primitiveValue) {
-			$instances[] = new static($primitiveValue);
+		foreach (static::getConstantToScalar() as $scalarValue) {
+			$instances[] = new static($scalarValue);
 		}
 		return $instances;
 	}

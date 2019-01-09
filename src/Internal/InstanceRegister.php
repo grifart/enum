@@ -13,13 +13,15 @@ final class InstanceRegister
 	public static function get(string $enumClass, callable $registrar): Meta
 	{
 		if (!isset(self::$instances[$enumClass])) {
-			self::register($registrar());
+			self::register($enumClass, $registrar());
 		}
 		return self::$instances[$enumClass];
 	}
 
-	public static function register(Meta $meta): void
+	public static function register(string $className, Meta $meta): void
 	{
+		\assert($meta->getClass() === $className, 'Provided Meta object is for different enum class that was originally registered.');
+
 		// check consistency of enum when assertions are enabled (typically non-production code)
 		assert(
 			(function () use ($meta): bool {
@@ -27,6 +29,6 @@ final class InstanceRegister
 				return true;
 			})()
 		);
-		self::$instances[$meta->getClass()] = $meta;
+		self::$instances[$className] = $meta;
 	}
 }

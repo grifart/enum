@@ -6,12 +6,13 @@ use Grifart\Enum\Internal\InstanceRegister;
 use Grifart\Enum\Internal\Meta;
 
 /**
- * Enum
+ * Enumeration class with support for strong-typing support and behaviour-rich values.
  *
- * Three concepts:
- * - constant name = used to refer to enum value
- * - value = the enum instance
- * - scalar value = scalar value of enum, must be unique, used for serialization
+ * Three basic concepts:
+ * - **value**    = the enum instance
+ * - **scalar**   = scalar identifier of enum value; typically used in persistence layer to refer to particular value
+ * - **constant** = each value has associated class constant, which is used to refer to value from code.
+ *      Constant name is used to generate static method for each of them. Constants are therefore usually not public.
  */
 abstract class Enum
 {
@@ -74,10 +75,10 @@ abstract class Enum
 	private static function getMeta(): Meta
 	{
 		return InstanceRegister::get(
-			static::getEnumClassName(),
-			function (): Meta {
+			$rootClass = static::getEnumRootClass(),
+			function () use ($rootClass): Meta {
 				return Meta::from(
-					static::getEnumClassName(),
+					$rootClass,
 					static::getConstantToScalar(),
 					static::provideInstances()
 				);
@@ -85,7 +86,7 @@ abstract class Enum
 		);
 	}
 
-	private static function getEnumClassName(): string
+	private static function getEnumRootClass(): string
 	{
 		try {
 			$ref = new \ReflectionClass(static::class);
