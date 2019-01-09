@@ -195,7 +195,7 @@ abstract class DayOfWeek extends \Grifart\Enum\Enum
 	protected static function provideInstances(): array
 	{
 		return [
-			self::MONDAY => new class extends DayOfWeek
+			new class(self::MONDAY) extends DayOfWeek
 			{
 				public function nextDay(): DayOfWeek
 				{
@@ -203,7 +203,7 @@ abstract class DayOfWeek extends \Grifart\Enum\Enum
 				}
 			},
 
-			self::TUESDAY => new class extends DayOfWeek
+			new class(self::TUESDAY) extends DayOfWeek
 			{
 				public function nextDay(): DayOfWeek
 				{
