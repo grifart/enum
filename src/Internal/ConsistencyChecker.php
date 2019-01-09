@@ -13,6 +13,7 @@ final class ConsistencyChecker
 	{
 		self::checkCallStaticAnnotations($enumMeta);
 		self::checkAllInstancesProvided($enumMeta);
+		self::checkAbstractAndFinal($enumMeta);
 	}
 
 	private static function checkCallStaticAnnotations(Meta $enumMeta): void
@@ -49,6 +50,19 @@ final class ConsistencyChecker
 				$constantName = $enumMeta->getConstantNameForScalar($scalarValue);
 				throw new UsageException("You have forgotten to provide instance for $constantName.");
 			}
+		}
+	}
+
+	private static function checkAbstractAndFinal(Meta $enumMeta): void
+	{
+		$enumReflection = $enumMeta->getClassReflection();
+
+		if (!$enumReflection->isFinal() && !$enumReflection->isAbstract()) {
+			throw new UsageException(
+				"Enum root class must be either abstract or final.\n"
+				. "Final is used when one type is enough for all enum instance values.\n"
+				. 'Abstract is used when enum values are always instances of child classes of enum root class.'
+			);
 		}
 	}
 }

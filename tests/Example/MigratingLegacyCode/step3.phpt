@@ -9,7 +9,7 @@ use Tester\Assert;
  * @method static OrderState NEW()
  * @method static OrderState PROCESSING()
  */
-class OrderState extends \Grifart\Enum\Enum {
+final class OrderState extends \Grifart\Enum\Enum {
 	use \Grifart\Enum\AutoInstances;
 	private const NEW = 'new';
 	private const PROCESSING = 'processing';

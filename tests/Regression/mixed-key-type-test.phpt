@@ -6,7 +6,7 @@ require __DIR__ . '/../bootstrap.php';
  * @method static EnumMixedKeys VALUE_STRING()
  * @method static EnumMixedKeys VALUE_INT()
  */
-class EnumMixedKeys extends \Grifart\Enum\Enum
+final class EnumMixedKeys extends \Grifart\Enum\Enum
 {
 	use Grifart\Enum\AutoInstances;
 

@@ -5,7 +5,7 @@ require __DIR__ . '/../bootstrap.php';
  * @method static ReflectionConstantNames NEW()
  * @method static ReflectionConstantNames ACTIVE()
  */
-class ReflectionConstantNames extends \Grifart\Enum\Enum
+final class ReflectionConstantNames extends \Grifart\Enum\Enum
 {
 	use Grifart\Enum\AutoInstances;
 

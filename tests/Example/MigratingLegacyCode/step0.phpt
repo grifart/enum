@@ -5,7 +5,7 @@ require __DIR__ . '/../../bootstrap.php';
 
 use Tester\Assert;
 
-class OrderState {
+final class OrderState {
 	public const NEW = 'new';
 	public const PROCESSING = 'processing';
 }

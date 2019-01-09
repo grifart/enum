@@ -6,7 +6,7 @@ require __DIR__ . '/../bootstrap.php';
  * @method static OrderState ACTIVE()
  * @method static OrderState DELIVERED()
  */
-class OrderState extends \Grifart\Enum\Enum
+final class OrderState extends \Grifart\Enum\Enum
 {
 	use Grifart\Enum\AutoInstances;
 

@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 require __DIR__ . '/../bootstrap.php';
 
-class MethodAnnotationsMissing extends \Grifart\Enum\Enum
+final class MethodAnnotationsMissing extends \Grifart\Enum\Enum
 {
 	use Grifart\Enum\AutoInstances;
 

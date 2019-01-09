@@ -11,7 +11,7 @@ require __DIR__ . '/../bootstrap.php';
  * @method static MissingInstanceEnum STATE_A()
  * @method static MissingInstanceEnum STATE_B()
  */
-class MissingInstanceEnum extends \Grifart\Enum\Enum
+abstract class MissingInstanceEnum extends \Grifart\Enum\Enum
 {
 	protected const STATE_A = 'a';
 	protected const STATE_B = 'b';
