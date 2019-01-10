@@ -61,12 +61,16 @@ $expectNonRootAccess(function () {
 $expectNonRootAccess(function () {
 	Value1::fromScalar('1');
 });
-$expectNonRootAccess(function () {
-	Value1::VALUE1();
-});
-$expectNonRootAccess(function () {
-	Value1::VALUE2();
-});
+//$expectNonRootAccess(function () {
+//	Value1::VALUE1();
+//});
+//$expectNonRootAccess(function () {
+//	Value1::VALUE2();
+//});
+Assert::type(Value1::class, Value1::VALUE1());
+Assert::type(Value1::class, Value2::VALUE1());
+Assert::type(Value2::class, Value1::VALUE2());
+Assert::type(Value2::class, Value2::VALUE2());
 
 // valid edge case: this is valid and accesses registers the same way as calls above
 Assert::same(
