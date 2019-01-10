@@ -22,7 +22,7 @@ All logic has been kept in `OrderService`. We still need to handle cas when some
 
 [source code](refactoring-3.phpt)
 
-Here I have moved `OrderService::canDoTransition()` method into enum itself. 
+Here I have moved `OrderService::canDoTransition()` method into enum itself.
 
 Nice thing is that we do not need anymore external service for asking `OrderState`-related questions.
 
@@ -39,7 +39,7 @@ When there is behaviour same for all values of enum, it can be safely placed on 
 [source code](refactoring-5.phpt)
 
 Now, new domain requirement:
- 
+
 > I would like to remove person who has been assigned to work on order, when order changes state to cancelled or finished.
 
 1. I have rewritten each value as separate class (as behaviour is different for different values)
