@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+use Tester\Assert;
+
 require __DIR__ . '/../bootstrap.php';
 
 /**
@@ -18,14 +20,14 @@ $val1 = Enum1::VALUE1();
 $val2 = Enum1::VALUE2();
 
 /** intentionally non-strict @noinspection TypeUnsafeComparisonInspection PhpNonStrictObjectEqualityInspection */
-\Tester\Assert::true($val1 == Enum1::VALUE1());
+Assert::true($val1 == Enum1::VALUE1());
 /** intentionally non-strict @noinspection TypeUnsafeComparisonInspection PhpNonStrictObjectEqualityInspection */
-\Tester\Assert::true($val2 == Enum1::VALUE2());
+Assert::true($val2 == Enum1::VALUE2());
 
 /** intentionally non-strict @noinspection TypeUnsafeComparisonInspection PhpNonStrictObjectEqualityInspection */
-\Tester\Assert::true($val1 != Enum1::VALUE2());
+Assert::true($val1 != Enum1::VALUE2());
 /** intentionally non-strict @noinspection TypeUnsafeComparisonInspection PhpNonStrictObjectEqualityInspection */
-\Tester\Assert::true($val2 != Enum1::VALUE1());
+Assert::true($val2 != Enum1::VALUE1());
 
 
 $switchResult = 0;
@@ -40,4 +42,26 @@ switch ($val1) {
 		$switchResult = 3;
 		break;
 }
-\Tester\Assert::same(1, $switchResult);
+Assert::same(1, $switchResult);
+
+
+// Check enums are handled well in in_array() function
+Assert::true(
+	in_array(Enum1::VALUE1(), [ Enum1::VALUE1(), 'no-match' ], true),
+	'List of enums contains item - strict check'
+);
+
+Assert::true(
+	in_array(Enum1::VALUE1(), [ Enum1::VALUE1(), 'no-match' ], false),
+	'List of enums contains item - loose check'
+);
+
+Assert::false(
+	in_array(Enum1::VALUE1(), [ Enum1::VALUE2(), 'no-match' ], true),
+	'List of enums doesnt contain item - strict check'
+);
+
+Assert::false(
+	in_array(Enum1::VALUE1(), [ Enum1::VALUE2(), 'no-match' ], false),
+	'List of enums doesnt contain item - loose check'
+);
