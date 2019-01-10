@@ -62,7 +62,7 @@ If you need to upgrade to a newer release cycle, check the release history for a
 - equals() - returns true if the same enum value is passed
 - scalarEquals() - returns true if passed scalar value is equal to current value
 
-### Basic enumeration
+### Simplest enumeration
 
 ```php
 /**
@@ -72,28 +72,64 @@ If you need to upgrade to a newer release cycle, check the release history for a
 final class DayOfWeek extends \Grifart\Enum\Enum
 {
     use Grifart\Enum\AutoInstances;
-
     private const MONDAY = 'monday';
     private const TUESDAY = 'tuesday';
-    // ...
-
-    public function process(self $value): void { /* ... */ }
-
 }
 
 $monday = DayOfWeek::MONDAY();
-$monday->process(DayOfWeek::TUESDAY());
+function process(DayOfWeek $day): void { /* ... */ }
 ````
 
-### Migrating from class constants
+### Values with behaviour
+
+This way conditions can be replaced by composition. [full code example](tests/Example/LoyaltyProgramExample/example.phpt)
+
+```php
+/**
+ * Type of offer expiration.
+ * - FIXED - expires for all member at once,
+ *           after days set in offer type (counting from
+ * - ASSIGNMENT - expires after
+ *
+ * @method static ExpirationType ASSIGNMENT()
+ * @method static ExpirationType FIXED()
+ */
+abstract class ExpirationType extends \Grifart\Enum\Enum
+{
+	protected const ASSIGNMENT = 'assignment';
+	protected const FIXED = 'fixed';
+
+	abstract public function computeExpiration(Offer $offer): \DateTimeImmutable;
+
+	protected static function provideInstances() : array {
+		return [
+			new class(self::ASSIGNMENT) extends ExpirationType {
+				public function computeExpiration(Offer $offer): \DateTimeImmutable {
+					return $offer->assignedAt()
+						->modify('+' . $offer->type()->daysValid() . ' days');
+				}
+			},
+			new class(self::FIXED) extends ExpirationType {
+				public function computeExpiration(Offer $offer): \DateTimeImmutable {
+					$beginDate = $offer->type()->beginDate();
+					\assert($beginDate !== NULL);
+					return $beginDate->modify('+' . $offer->type()->daysValid() . ' days');
+				}
+			},
+		];
+	}
+}
+````
+
+### Migrating from class constants <small>[[source code](tests/Example/MigratingLegacyCode/readme.md)]</small>
 
 This guide show how to migrate from classes with constants to `\Grifart\Enum` in few simple steps. [Continue to example](tests/Example/MigratingLegacyCode/readme.md)
 
-### Adding behaviour to values
+### Adding behaviour to values <small>[[source code](tests/Example/AddingBehaviourToEnum/readme.md)]</small>
 
 This guide show how to slowly add behaviour to enum values. Step by step. [Continue to example](tests/Example/AddingBehaviourToEnum/readme.md)
 
-### Complex showcase: order lifecycle tracking
+### Complex showcase: order lifecycle tracking <small>[[source code](tests/Example/OrderState/readme.md)]</small>
 
 This example contains 5 ways of implementing order state. [Continue to example](tests/Example/OrderState/readme.md).
 
