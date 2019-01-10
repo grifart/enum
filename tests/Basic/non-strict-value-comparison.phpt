@@ -65,3 +65,24 @@ Assert::false(
 	in_array(Enum1::VALUE1(), [ Enum1::VALUE2(), 'no-match' ], false),
 	'List of enums doesnt contain item - loose check'
 );
+
+
+/**
+ * @method static Enum2 ONE()
+ * @method static Enum2 TWO()
+ * @method static Enum2 THREE()
+ */
+final class Enum2 extends \Grifart\Enum\Enum
+{
+	use Grifart\Enum\AutoInstances;
+	protected const ONE = 'value1';
+	protected const TWO = 'value2';
+	protected const THREE = 'value3';
+}
+
+// array_intersect
+$first_array = [Enum2::ONE(), Enum2::TWO()];
+$second_array = [Enum2::TWO(), Enum2::THREE()];
+Assert::equal([Enum2::TWO()], array_values(array_intersect($first_array, $second_array)));
+Assert::equal([Enum2::TWO()], array_values(array_intersect($second_array, $first_array)));
+Assert::equal($first_array, array_values(array_intersect($first_array, $first_array)));
