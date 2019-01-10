@@ -82,15 +82,12 @@ function process(DayOfWeek $day): void { /* ... */ }
 
 ### Values with behaviour
 
-This way conditions can be replaced by composition. [full code example](tests/Example/LoyaltyProgramExample/example.phpt)
+This way conditions can be replaced by composition.
+
+This example originally comes from loyalty program domain, [continue to full code sample with context](tests/Example/LoyaltyProgramExample/example.phpt).
 
 ```php
 /**
- * Type of offer expiration.
- * - FIXED - expires for all member at once,
- *           after days set in offer type (counting from
- * - ASSIGNMENT - expires after
- *
  * @method static ExpirationType ASSIGNMENT()
  * @method static ExpirationType FIXED()
  */
@@ -105,15 +102,12 @@ abstract class ExpirationType extends \Grifart\Enum\Enum
 		return [
 			new class(self::ASSIGNMENT) extends ExpirationType {
 				public function computeExpiration(Offer $offer): \DateTimeImmutable {
-					return $offer->assignedAt()
-						->modify('+' . $offer->type()->daysValid() . ' days');
+					return /* behaviour A */;
 				}
 			},
 			new class(self::FIXED) extends ExpirationType {
 				public function computeExpiration(Offer $offer): \DateTimeImmutable {
-					$beginDate = $offer->type()->beginDate();
-					\assert($beginDate !== NULL);
-					return $beginDate->modify('+' . $offer->type()->daysValid() . ' days');
+					return /* behaviour B */;
 				}
 			},
 		];
