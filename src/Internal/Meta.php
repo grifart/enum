@@ -51,6 +51,13 @@ final class Meta
 
 		foreach($values as $value) {
 			$scalar = $value->toScalar();
+
+			if ($scalar === NULL) {
+				throw new UsageException(
+					"Parent constructor has not been called while constructing one of {$this->getClass()} enum values."
+				);
+			}
+
 			if (isset($scalarToValues[$scalar])) {
 				throw new UsageException('You have provided duplicated scalar values.');
 			}

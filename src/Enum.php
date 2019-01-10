@@ -64,7 +64,7 @@ abstract class Enum
 	{
 		\assert(\count($arguments) === 0);
 
-		$value = self::getMeta()->getValueForConstantName($constantName);
+		$value = self::getMeta(FALSE)->getValueForConstantName($constantName);
 		if($value === NULL) {
 			throw new \Error('Call to undefined method ' . static::class . '::' . $constantName . '(). Please check that you have provided constant, annotation and value.');
 		}
