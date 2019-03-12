@@ -130,7 +130,7 @@ This example contains 5 ways of implementing order state. [Continue to example](
 ## Big thanks
 
 - [David Grudl](https://github.com/dg) for making [Nette Tester](https://github.com/nette/tester)
-- [Onřej Mirtes](https://github.com/ondrejmirtes) for making [PHP Stan](https://github.com/phpstan/phpstan).
+- [Ondřej Mirtes](https://github.com/ondrejmirtes) for making [PHP Stan](https://github.com/phpstan/phpstan).
 
 ## More reading
 
