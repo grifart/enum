@@ -19,7 +19,7 @@ abstract class Enum
 
 	/**
 	 * Provide values for given enum, never call this method directly.
-	 * @return static[]
+	 * @return self[]
 	 */
 	abstract protected static function provideInstances(): array;
 
