@@ -8,6 +8,8 @@ and [github.com](https://github.com/grifart/enum).
 
 Sponsored by [grifart.com](https://grifart.com).
 
+Do you like video 📺 instead of reading? Here is one in [english](http://bit.ly/better-enum-for-php) and one in [czech](http://bit.ly/lepsi-enum-pro-php).
+
 ## Introduction
 
 Enums represent predefined set of values. The available values are defined statically by each enum class. Each value is represented by an instance of this class in a flyweight manner.
