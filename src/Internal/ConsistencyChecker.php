@@ -2,6 +2,7 @@
 
 namespace Grifart\Enum\Internal;
 
+use Grifart\Enum\Enum;
 use Grifart\Enum\UsageException;
 
 /**
@@ -9,6 +10,9 @@ use Grifart\Enum\UsageException;
  */
 final class ConsistencyChecker
 {
+	/**
+	 * @param Meta<Enum> $enumMeta
+	 */
 	public static function checkAnnotations(Meta $enumMeta): void
 	{
 		self::checkCallStaticAnnotations($enumMeta);
@@ -16,6 +20,9 @@ final class ConsistencyChecker
 		self::checkAbstractAndFinal($enumMeta);
 	}
 
+	/**
+	 * @param Meta<Enum> $enumMeta
+	 */
 	private static function checkCallStaticAnnotations(Meta $enumMeta): void
 	{
 		$enumReflection = $enumMeta->getClassReflection();
@@ -41,6 +48,9 @@ final class ConsistencyChecker
 		// todo: @method annotations without constants
 	}
 
+	/**
+	 * @param Meta<Enum> $enumMeta
+	 */
 	private static function checkAllInstancesProvided(Meta $enumMeta): void
 	{
 		// todo: instances without constants
@@ -53,6 +63,9 @@ final class ConsistencyChecker
 		}
 	}
 
+	/**
+	 * @param Meta<Enum> $enumMeta
+	 */
 	private static function checkAbstractAndFinal(Meta $enumMeta): void
 	{
 		$enumReflection = $enumMeta->getClassReflection();

@@ -7,21 +7,26 @@ use Grifart\Enum\MissingValueDeclarationException;
 use Grifart\Enum\ReflectionFailedException;
 use Grifart\Enum\UsageException;
 
+/**
+ * @template TEnum of \Grifart\Enum\Enum
+ * @phpstan-type TScalarValue int|string
+ * @phpstan-type TConstantName string
+ */
 final class Meta
 {
-	/** @var string */
+	/** @var class-string<TEnum> */
 	private $class;
 
-	/** @var array<string,int|string> */
+	/** @var array<TConstantName,TScalarValue> */
 	private $constantToScalar;
 
-	/** @var array<int|string,Enum> */
+	/** @var array<TScalarValue,TEnum> */
 	private $scalarToValue;
 
 	/**
-	 * @param string $class
-	 * @param array<string,string|int> $constantToScalar
-	 * @param Enum[] $values
+	 * @param class-string<TEnum> $class
+	 * @param array<TConstantName,TScalarValue> $constantToScalar
+	 * @param TEnum[] $values
 	 */
 	private function __construct(string $class, array $constantToScalar, array $values)
 	{
@@ -32,7 +37,8 @@ final class Meta
 
 	/**
 	 * @param Enum[] $values
-	 * @return array<string|int,Enum>
+	 * @phpstan-param TEnum[] $values
+	 * @return array<TScalarValue,TEnum>
 	 */
 	private function buildScalarToValueMapping(array $values): array {
 		$scalarToValues = [];
@@ -52,11 +58,7 @@ final class Meta
 		foreach($values as $value) {
 			$scalar = $value->toScalar();
 
-			if ($scalar === NULL) {
-				throw new UsageException(
-					"Parent constructor has not been called while constructing one of {$this->getClass()} enum values."
-				);
-			}
+
 
 			if (isset($scalarToValues[$scalar])) {
 				throw new UsageException('You have provided duplicated scalar values.');
@@ -71,21 +73,27 @@ final class Meta
 	}
 
 	/**
-	 * @param string $class
-	 * @param array<string,string|int> $constantToScalar
-	 * @param Enum[] $values
-	 * @return self
+	 * @param class-string<TEnum> $class
+	 * @param array<TConstantName,TScalarValue> $constantToScalar
+	 * @param TEnum[] $values
+	 * @return self<TEnum>
 	 */
 	public static function from(string $class, array $constantToScalar, array $values): self
 	{
 		return new self($class, $constantToScalar, $values);
 	}
 
+	/**
+	 * @return class-string<TEnum>
+	 */
 	public function getClass(): string
 	{
 		return $this->class;
 	}
 
+	/**
+	 * @return \ReflectionClass<TEnum>
+	 */
 	public function getClassReflection(): \ReflectionClass
 	{
 		try {
@@ -96,7 +104,7 @@ final class Meta
 	}
 
 	/**
-	 * @return string[]
+	 * @return TConstantName[]
 	 */
 	public function getConstantNames(): array
 	{
@@ -104,7 +112,7 @@ final class Meta
 	}
 
 	/**
-	 * @return string[]|int[]
+	 * @return array<int, TScalarValue>
 	 */
 	public function getScalarValues(): array
 	{
@@ -112,7 +120,7 @@ final class Meta
 	}
 
 	/**
-	 * @return Enum[]
+	 * @return TEnum[]
 	 */
 	public function getValues(): array
 	{
@@ -120,7 +128,8 @@ final class Meta
 	}
 
 	/**
-	 * @param string $constantName
+	 * @param TConstantName $constantName
+	 * @return ?TEnum
 	 * @throws MissingValueDeclarationException
 	 */
 	public function getValueForConstantName($constantName): ?Enum
@@ -133,7 +142,7 @@ final class Meta
 	}
 
 	/**
-	 * @param string|int $scalarValue
+	 * @param TScalarValue $scalarValue
 	 */
 	public function hasValueForScalar($scalarValue): bool
 	{
@@ -141,7 +150,7 @@ final class Meta
 	}
 
 	/**
-	 * @param string|int $scalarValue
+	 * @param TScalarValue $scalarValue
 	 */
 	public function getConstantNameForScalar($scalarValue): string
 	{
@@ -153,7 +162,7 @@ final class Meta
 	}
 
 	/**
-	 * @return int|string
+	 * @return TScalarValue
 	 */
 	public function getScalarForValue(Enum $enum)
 	{
@@ -165,7 +174,8 @@ final class Meta
 	}
 
 	/**
-	 * @param int|string $scalar
+	 * @param TScalarValue $scalar
+	 * @return TEnum
 	 * @throws MissingValueDeclarationException if there is no value for given scalar
 	 */
 	public function getValueForScalar($scalar): Enum
@@ -177,7 +187,7 @@ final class Meta
 	}
 
 	/**
-	 * @param string|int $scalar
+	 * @param TScalarValue $scalar
 	 */
 	private function hasConstantForScalar($scalar): bool
 	{

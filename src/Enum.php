@@ -13,13 +13,15 @@ use Grifart\Enum\Internal\Meta;
  * - **scalar**   = scalar identifier of enum value; typically used in persistence layer to refer to particular value
  * - **constant** = each value has associated class constant, which is used to refer to value from code.
  *      Constant name is used to generate static method for each of them. Constants are therefore usually not public.
+
+ * @phpstan-type TScalarValue string|int
  */
 abstract class Enum
 {
 
 	/**
 	 * Provide values for given enum, never call this method directly.
-	 * @return self[]
+	 * @return static[]
 	 */
 	abstract protected static function provideInstances(): array;
 
@@ -33,12 +35,14 @@ abstract class Enum
 	}
 
 	/**
-	 * @return array<string,string|int>
+	 * @return array<string,TScalarValue>
 	 */
 	protected static function getConstantToScalar(): array
 	{
 		try {
-			return (new \ReflectionClass(static::class))->getConstants();
+			/** @var array<string, TScalarValue> $constants */
+			$constants = (new \ReflectionClass(static::class))->getConstants();
+			return $constants;
 		} catch (\ReflectionException $e) {
 			throw new ReflectionFailedException($e);
 		}
@@ -46,7 +50,7 @@ abstract class Enum
 
 	/**
 	 * Builds enumeration from its scalar value.
-	 * @param string|int $scalar
+	 * @param TScalarValue $scalar
 	 * @return static
 	 * @throws MissingValueDeclarationException if there is no value for given scalar
 	 */
@@ -57,13 +61,12 @@ abstract class Enum
 
 	/**
 	 * Provides access to values using ::CONSTANT_NAME() interface.
+	 * @param array{} $arguments And empty array, arguments not used.
 	 * @return static
 	 * @throws MissingValueDeclarationException
 	 */
 	public static function __callStatic(string $constantName, array $arguments): Enum
 	{
-		\assert(\count($arguments) === 0);
-
 		$value = self::getMeta(FALSE)->getValueForConstantName($constantName);
 		if($value === NULL) {
 			throw new \Error('Call to undefined method ' . static::class . '::' . $constantName . '(). Please check that you have provided constant, annotation and value.');
@@ -71,9 +74,12 @@ abstract class Enum
 		return $value;
 	}
 
+	/**
+	 * @return Meta<static>
+	 */
 	private static function getMeta(bool $checkIfAccessingRootDirectly = true): Meta
 	{
-		$rootClass = static::getRootClass();
+		$rootClass = self::getRootClass();
 		if ($checkIfAccessingRootDirectly && $rootClass !== static::class) {
 			throw new UsageException(
 				'You have accessed static enum method on non-root class '
@@ -84,22 +90,29 @@ abstract class Enum
 		return InstanceRegister::get(
 			$rootClass,
 			function () use ($rootClass): Meta {
-				return Meta::from(
+				/** @var Meta<static> $meta */
+				$meta = Meta::from(
 					$rootClass,
 					static::getConstantToScalar(),
 					static::provideInstances()
 				);
+				return $meta;
 			}
 		);
 	}
 
+	/**
+	 * @return class-string<static>
+	 */
 	private static function getRootClass(): string
 	{
 		try {
-			return (new \ReflectionClass(static::class))
+			$rootClassName = (new \ReflectionClass(static::class))
 				->getMethod('provideInstances')
 				->getDeclaringClass()
 				->getName();
+			/** @var class-string<static> $rootClassName */
+			return $rootClassName;
 
 		} catch (\ReflectionException $e) {
 			throw new ReflectionFailedException($e);
@@ -110,11 +123,11 @@ abstract class Enum
 
 	// -------- INSTANCE IMPLEMENTATION ---------
 
-	/** @var int|string */
+	/** @var ?TScalarValue */
 	private $scalarValue;
 
 	/**
-	 * @param int|string $scalarValue
+	 * @param TScalarValue $scalarValue
 	 */
 	protected function __construct($scalarValue)
 	{
@@ -123,10 +136,17 @@ abstract class Enum
 
 	/**
 	 * Returns scalar representation of enum value.
-	 * @return int|string
+	 * @return TScalarValue
 	 */
 	public function toScalar()
 	{
+		if ($this->scalarValue === NULL) {
+			$rootClassName = self::getRootClass();
+			throw new UsageException(
+				"Parent constructor has not been called while constructing one of {$rootClassName} enum values."
+			);
+		}
+
 		return $this->scalarValue;
 	}
 
@@ -162,7 +182,7 @@ abstract class Enum
 	}
 
 	/**
-	 * @param int|string $theOtherScalarValue
+	 * @param TScalarValue $theOtherScalarValue
 	 * @return bool true if current scalar representation of value equals to given scalar value
 	 */
 	public function scalarEquals($theOtherScalarValue): bool

@@ -3,11 +3,5 @@ includes:
 	- vendor/grifart/phpstan-oneline/config.neon
 
 parameters:
+	level: 9
 	ignoreErrors:
-
-# 		for phpstan 0.11
-#		-
-#			message: '#Strict comparison using === between int\\|string and null will always evaluate to false#'
-#			path: src/Internal/Meta.php
-
-		- '#Strict comparison using === between int\\|string and null will always evaluate to false#'

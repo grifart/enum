@@ -15,7 +15,7 @@
             "@phpstan",
             "@test"
         ],
-        "phpstan": "vendor/bin/phpstan analyze -l 7 -c phpstan.neon --error-format compact --no-interaction --ansi --no-progress -- src",
+        "phpstan": "vendor/bin/phpstan analyze -c phpstan.neon --error-format compact --no-interaction --ansi --no-progress -- src",
         "test": "vendor/bin/tester tests --colors 1"
     },
 
@@ -32,10 +32,10 @@
     },
 
     "require-dev": {
-        "nette/tester": "^2.1.0",
-        "phpstan/phpstan": "^0.10.7",
-        "phpstan/phpstan-strict-rules": "^0.10.1",
-        "grifart/phpstan-oneline": "^0.2.0"
+        "nette/tester": "~2.4.2",
+        "phpstan/phpstan": "~1.6.9",
+        "phpstan/phpstan-strict-rules": "~1.2.3",
+        "grifart/phpstan-oneline": "~v0.4.2"
     },
     "autoload-dev": {
         "files": [
