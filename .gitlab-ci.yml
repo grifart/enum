@@ -94,3 +94,19 @@ test.tests.php71.oldDeps:
 test.tests.php72:
   <<: *test-tests
   image: grifart/php7.2-with-gulp-and-all-php-modules
+
+test.tests.php73:
+  <<: *test-tests
+  image: grifart/php7.3-with-gulp-and-all-php-modules
+
+test.tests.php74:
+  <<: *test-tests
+  image: grifart/php7.4-with-gulp-and-all-php-modules
+
+test.tests.php80:
+  <<: *test-tests
+  image: grifart/php8.0-with-all-modules-and-various-tools
+
+test.tests.php81:
+  <<: *test-tests
+  image: grifart/php8.1-with-all-modules-and-various-tools
