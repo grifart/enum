@@ -83,18 +83,6 @@ test.phpstan:
     when: on_failure
 
 
-test.tests.php71:
-  <<: *test-tests
-  image: grifart/php7.1-with-gulp-and-all-php-modules
-
-test.tests.php71.oldDeps:
-  <<: *test-tests
-  before_script:
-    - composer update --prefer-lowest --no-interaction --ansi
-  image: grifart/php7.1-with-gulp-and-all-php-modules
-
-
-
 test.tests.php72:
   <<: *test-tests
   image: grifart/php7.2-with-gulp-and-all-php-modules
