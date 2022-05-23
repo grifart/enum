@@ -1,6 +1,5 @@
 image: grifart/php8.1-with-all-modules-and-various-tools
 
-
 # STAGES
 
 stages:
@@ -68,6 +67,7 @@ test.phpstan:
   stage: test
 
   dependencies: []
+  needs: []
 
   before_script:
     - composer install --no-interaction --ansi
