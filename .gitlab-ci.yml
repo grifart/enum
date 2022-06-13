@@ -1,5 +1,4 @@
-image: grifart/php7.2-with-gulp-and-all-php-modules
-
+image: grifart/php8.1-with-all-modules-and-various-tools
 
 # STAGES
 
@@ -46,8 +45,8 @@ test.php-syntax-check:
   stage: test
 
   script:
-  - composer global require jakub-onderka/php-console-highlighter jakub-onderka/php-parallel-lint
-  - parallel-lint src
+  - composer require php-parallel-lint/php-parallel-lint
+  - vendor/bin/parallel-lint src
 
 
 # php stan
@@ -67,8 +66,11 @@ test.phpstan:
 .test.tests: &test-tests
   stage: test
 
-  dependencies:
-  - build.composer.dev
+  dependencies: []
+  needs: []
+
+  before_script:
+    - composer install --no-interaction --ansi
 
   script:
   - composer run test
@@ -80,17 +82,61 @@ test.phpstan:
     - src # can contain assertion diffs
     when: on_failure
 
-test.tests.php71:
-  <<: *test-tests
-  image: grifart/php7.1-with-gulp-and-all-php-modules
-
-test.tests.php71.oldDeps:
-  <<: *test-tests
-  before_script:
-  - composer update --prefer-lowest --no-interaction --ansi
-  image: grifart/php7.1-with-gulp-and-all-php-modules
-
 
 test.tests.php72:
   <<: *test-tests
   image: grifart/php7.2-with-gulp-and-all-php-modules
+
+test.tests.php72.oldDeps:
+  <<: *test-tests
+  before_script:
+    - composer update --prefer-lowest --no-interaction --ansi
+  image: grifart/php7.2-with-gulp-and-all-php-modules
+
+
+
+test.tests.php73:
+  <<: *test-tests
+  image: grifart/php7.3-with-gulp-and-all-php-modules
+
+test.tests.php73.oldDeps:
+  <<: *test-tests
+  before_script:
+    - composer update --prefer-lowest --no-interaction --ansi
+  image: grifart/php7.3-with-gulp-and-all-php-modules
+
+
+
+test.tests.php74:
+  <<: *test-tests
+  image: grifart/php7.4-with-gulp-and-all-php-modules
+
+test.tests.php74.oldDeps:
+  <<: *test-tests
+  before_script:
+    - composer update --prefer-lowest --no-interaction --ansi
+  image: grifart/php7.4-with-gulp-and-all-php-modules
+
+
+
+test.tests.php80:
+  <<: *test-tests
+  image: grifart/php8.0-with-all-modules-and-various-tools
+
+test.tests.php80.oldDeps:
+  <<: *test-tests
+  before_script:
+    - composer update --prefer-lowest --no-interaction --ansi
+  image: grifart/php8.0-with-all-modules-and-various-tools
+
+
+
+test.tests.php81:
+  <<: *test-tests
+  image: grifart/php8.1-with-all-modules-and-various-tools
+
+test.tests.php81.oldDeps:
+  <<: *test-tests
+  before_script:
+    - composer update --prefer-lowest --no-interaction --ansi
+  image: grifart/php8.1-with-all-modules-and-various-tools
